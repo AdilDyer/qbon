@@ -26,20 +26,22 @@ app.listen(8080, () => {
   console.log("server is listening to port 8080");
 });
 
-app.get("/", (req, res) => {
-  res.render("home.ejs");
+app.get("/", async (req, res) => {
+  let schools = await School.find({});
+  // console.log(schools);
+  res.render("home.ejs", {schools});
 });
 
 let createNewSchool = async () => {
   const newSchool = new School({
-    name: "Your School Name",
+    name: "medico legal",
     courses: [
       {
-        name: "Course 1",
+        name: "bsc",
         semesters: [{ number: 1 }, { number: 2 }],
       },
       {
-        name: "Course 2",
+        name: "mscc",
         semesters: [{ number: 1 }, { number: 2 }, { number: 3 }],
       },
     ],
@@ -56,3 +58,7 @@ let createNewSchool = async () => {
 };
 
 // createNewSchool();
+
+app.get("/schools", (req, res) => {
+  res.render("selections/schools.ejs");
+});

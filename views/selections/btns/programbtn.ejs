@@ -1,0 +1,68 @@
+<div class="program">
+  <button
+    class="btn btn-lg focus-ring focus-ring-primary selections-btn"
+    style="background-color: #d63484; color: white; width: 50rem; height: 4rem"
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#programOffcanvas"
+    id="btnprogram"
+    aria-controls="offcanvasWithBothOptions"
+  >
+    ~~~ Select Your program ~~~
+  </button>
+  <input
+    type="text"
+    name="selections[program]"
+    id="programname"
+    style="display: none"
+  />
+  <div
+    class="offcanvas offcanvas-end"
+    data-bs-theme="dark"
+    data-bs-scroll="true"
+    tabindex="-1"
+    id="programOffcanvas"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+        Select Your Program Name <br />From Below :
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        id="btn-close-program"
+        data-bs-dismiss="offcanvas"
+      ></button>
+    </div>
+    <div class="offcanvas-body">
+      <!--  -->
+      <ol class="list-group list-group-numbered" id="clickableList">
+        <%for(school of schools){%> <%for(course of school.courses){%>
+
+        <li class="list-group-item list-group-item-primary">
+          <%=course.name%>
+        </li>
+
+        <%}%> <%}%>
+      </ol>
+      <!--  -->
+    </div>
+  </div>
+</div>
+
+<script>
+  let btnprogram = document.querySelector("#btnprogram");
+  let inpforprogram = document.querySelector("#programname");
+  let btncloseprogram = document.querySelector("#btn-close-program");
+
+  const listItems = document.querySelectorAll("#clickableList li");
+  listItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      const text = this.textContent.trim();
+      console.log(text);
+      btnprogram.textContent = text;
+      inpforprogram.value = text;
+      btncloseprogram.click();
+    });
+  });
+</script>

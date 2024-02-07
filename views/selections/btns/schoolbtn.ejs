@@ -5,11 +5,17 @@
     type="button"
     data-bs-toggle="offcanvas"
     data-bs-target="#schoolOffcanvas"
+    id="btnschool"
     aria-controls="offcanvasWithBothOptions"
   >
     ~~~ Select Your School ~~~
   </button>
-
+  <input
+    type="text"
+    name="selections[school]"
+    id="schoolname"
+    style="display: none"
+  />
   <div
     class="offcanvas offcanvas-end"
     data-bs-theme="dark"
@@ -24,38 +30,38 @@
       <button
         type="button"
         class="btn-close"
+        id="btn-close-school"
         data-bs-dismiss="offcanvas"
       ></button>
     </div>
     <div class="offcanvas-body">
       <!--  -->
-      <ol class="list-group list-group-numbered">
+      <ol class="list-group list-group-numbered" id="clickableList">
+        <%for(school of schools){%>
+
         <li class="list-group-item list-group-item-primary">
-          SCHOOL OF CYBERSECURITY AND DIGITAL FORENSICS
+          <%=school.name%>
         </li>
-        <li class="list-group-item list-group-item-success">
-          SCHOOL OF LAW AND SOCIAL JUSTICE
-        </li>
-        <li class="list-group-item list-group-item-danger">
-          SCHOOL OF MANAGEMENT AND BUSINESS STUDIES
-        </li>
-        <li class="list-group-item list-group-item-warning">
-          SCHOOL OF CYBERSECURITY AND DIGITAL FORENSICS
-        </li>
-        <li class="list-group-item list-group-item-secondary">
-          SCHOOL OF LAW AND SOCIAL JUSTICE
-        </li>
-        <li class="list-group-item list-group-item-info">
-          SCHOOL OF MANAGEMENT AND BUSINESS STUDIES
-        </li>
-        <li class="list-group-item list-group-item-light">
-          SCHOOL OF LAW AND SOCIAL JUSTICE
-        </li>
-        <li class="list-group-item list-group-item-dark">
-          SCHOOL OF MANAGEMENT AND BUSINESS STUDIES
-        </li>
+
+        <%}%>
       </ol>
       <!--  -->
     </div>
   </div>
 </div>
+
+<script>
+  let btnschool = document.querySelector("#btnschool");
+  let inpforschool = document.querySelector("#schoolname");
+  let btncloseschool = document.querySelector("#btn-close-school");
+
+  const listItems = document.querySelectorAll("#clickableList li");
+  listItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      const text = this.textContent.trim();
+      btnschool.textContent = text;
+      inpforschool.value = text;
+      btncloseschool.click();
+    });
+  });
+</script>
