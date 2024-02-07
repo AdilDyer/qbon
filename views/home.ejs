@@ -1,0 +1,39 @@
+<%layout("/layouts/boilerplate.ejs")%>
+
+<div class="motivtcont glow">
+  <div class="slogan">Kya hua exams aa gye?</div>
+  <div class="slogan" id="aag">Aag laga do !</div>
+</div>
+
+<div class="container-fluid" id="cont-home">
+  <div class="img-div">
+    <img
+      src="https://lh3.googleusercontent.com/pw/ABLVV87vqTKM0xJ6kBiShZL0NcxdZJp70zOHOUSq1BvdRXnLt455b-iEtoxjPCutMDz00T7NP38KCc-pufmF3sohxXTalvZP_5p3ST9dHv4LxYJPo9w4TH_TA0z3PzmbKo7wf2GreMRdgTMhfz8LZZXgoJG7NjipUErBdKuRvVjELyGvf2I34DHLpY1yhEVFrWpRQkI64ehrZ1zDoRxCVR-8P8OWlKrCUKICbcIMJLsbc3g_HmVq61Nus3h7tkyyT8TNzF3EZSa7xJBvqrrPfoEBrG6DN98N8LLggYs60Yo4jVrl_aw61w2t-i8VOfgbYHdUmlMWPUaPNcbUIfhMeVsCjwnJTmTwMeBr_WfoI7T-ytvKnrrb3pdmsD45TIGbL2Esgjavo41Cgguh9Gdxl9ekSk4fQbRJMemZNDZwpputvBhT9ffKSd2aaozHDNLO4mQ2_MmNrevCuzVc51G5UVHy3X4KamwjJRdNGzhptxdkNx8-vkEELfl8NdkFUXBVVoTLhahK7S9_HXk3Zr80MsvzK5jTxxk1r93ouwHNnxOUBxdggrBxFAF4CCc7I99aVh7ZF4FRDK9X9roDp2DE19EyM7bWW-tX0oJjAWZmkasqQqJRls78ipWsBS5gTFn8RszPgp_bvuAbCT7aLXZAcAgx0n8bICKFD2Yl3wfZDQixuArAFRHgod_Ed0EEM_VHfQGivM7jal3wErQyQGzQnwzBV9t6g6OB4mzCRBFtZIM1fOYJeDH88ZWmQzOol7w4PJeSBNiFDO7bheSjqpqGaMY2rmkmXqH2V8BIRApBPgxjGEX4u5niCUJ6LyMUHEUFW1eizRbPpMtAwDvGBNQEq26erJCUQZ7y7wIu6kw05I5_mHNXn559rV5LWZ3W2YrseJt3XZ37jk70WfsPjrd13PK_wS-tfdErrwud2maJlW4rtzgXQGKgE6GsheYrH8r4bIxHyF5F9SJ45BscimQfveAvJCdjyyulGQ=w1306-h854-s-no-gm?authuser=0"
+      class="img-fluid"
+      alt="..."
+    />
+  </div>
+  <form action="/bookindex" method="get">
+    <div class="selections" style="overflow: hidden">
+      <!-- school -->
+      <%-include("selections/school.ejs")%>
+      <!-- Program -->
+      <%-include("selections/program.ejs")%>
+      <!-- Semester -->
+      <%-include("selections/semester.ejs")%>
+
+      <button
+        class="btn btn-lg focus-ring focus-ring-primary"
+        style="
+          background-color: #211c6a;
+          color: white;
+          width: 50rem;
+          height: 4rem;
+        "
+        type="submit"
+      >
+        SUBMIT
+      </button>
+    </div>
+  </form>
+</div>
