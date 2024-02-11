@@ -1,0 +1,63 @@
+<%layout("/layouts/boilerplate.ejs")%>
+<div class="body-index body-ques" >
+  <div class="container container-index">
+    <br />
+    <h2>Select From the Options : </h2>
+    <div class="cards cards-sc">
+      <div class="card card-sc ques-card" style="width: 22rem; height: 35rem">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body card-body-sc">
+          <h5 class="card-title card-title-sc">Question Papers</h5>
+          <p class="card-text">
+            Treasure trove of practice questions designed to challenge your
+            understanding, sharpen your skills, and reinforce your learning.
+          </p>
+
+          <a href="/questionyear" id="quesbtn" class="btn btn-primary card-sc-btn"
+            >Go For This</a
+          >
+        </div>
+      </div>
+      <div class="card card-sc ref-card" style="width: 22rem; height: 35rem">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body card-body-sc">
+          <h5 class="card-title card-title-sc">Reference Materials</h5>
+          <p class="card-text">
+            Instant access to all the study materials you need for your exam
+            studies, delve into textbooks, lecture notes, online resources,
+            assignments, and supplementary readings tailored to your course
+            curriculum.
+          </p>
+
+          <a href="/references" id="refbtn" class="btn btn-primary card-sc-btn"
+            >Go For This</a
+          >
+        </div>
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>
+
+<script>
+  let cards = document.querySelectorAll(".card-sc");
+  let quesbtn = document.querySelector("#quesbtn");
+  let refbtn = document.querySelector("#refbtn");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (card.classList.contains("ques-card")) {
+        quesbtn.click();
+      } else {
+        refbtn.click();
+      }
+    });
+  });
+</script>

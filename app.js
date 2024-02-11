@@ -28,8 +28,8 @@ app.listen(8080, () => {
 
 app.get("/", async (req, res) => {
   let schools = await School.find({});
-  // console.log(schools);
-  res.render("home.ejs", {schools});
+
+  res.render("home.ejs", { schools });
 });
 
 let createNewSchool = async () => {
@@ -59,6 +59,171 @@ let createNewSchool = async () => {
 
 // createNewSchool();
 
-app.get("/schools", (req, res) => {
-  res.render("selections/schools.ejs");
+//inserting in school collection:
+
+const insertToDb = async () => {
+  School.insertMany({
+    name: "School of Management",
+    courses: [
+      {
+        name: "BBA",
+        semesters: [
+          {
+            number: 1,
+            subjects: [
+              {
+                name: "basic Accounting",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: "social financial systems",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: "social  systems",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+
+              // Other subjects for this semester
+            ],
+          },
+          {
+            number: 2,
+            subjects: [
+              {
+                name: "high level eco",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: "democracy and eco",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: " and eco",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+
+              // Other subjects for this semester
+            ],
+          },
+          // Other semesters for this program
+        ],
+      },
+      {
+        name: "MBA",
+        semesters: [
+          {
+            number: 1,
+            subjects: [
+              {
+                name: "masters business",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: "masters social justice business poilicyies",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+
+              // Other subjects for this semester
+            ],
+          },
+          {
+            number: 2,
+            subjects: [
+              {
+                name: "high mst master level accounts",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+              {
+                name: "democracy  master andasdlafjsdf mst and india",
+                questionPapers: [
+                  { year: 2021 },
+                  { year: 2022 },
+                  { year: 2023 },
+                  { year: 2024 },
+                ],
+              },
+
+              // Other subjects for this semester
+            ],
+          },
+          // Other semesters for this program
+        ],
+      },
+      // Other programs for this school
+    ],
+  });
+};
+
+// insertToDb();
+app.get("/index", (req, res) => {
+  res.render("index.ejs");
+});
+
+app.get("/questionyear", (req, res) => {
+  res.render("quesroutes/ques.ejs");
+});
+
+app.get("/quesdata", (req, res) => {
+  res.render("quesroutes/quesdata.ejs");
+});
+
+app.get("/subject", async (req, res) => {
+  let selections = req.query;
+  let school = await School.find({ name: selections.school });
+  let course =
+    school[0].courses.find((item) => item.name === selections.course) || "";
+  let semObj =
+    course.semesters.find((item) => item.number == selections.semester) || "";
+  let subjects = semObj.subjects;
+  res.render("subject.ejs", { subjects });
+});
+
+app.get("/references", (req, res) => {
+  res.render("refs.ejs");
 });

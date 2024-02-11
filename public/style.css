@@ -9,6 +9,10 @@ body {
   width: 100%;
 }
 
+nav {
+  background-color: rgba(255, 192, 203, 0.2);
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -20,8 +24,8 @@ body {
 
 .logo-nav-img {
   border-radius: 1rem;
-  height: fit-content;
-  width: 10rem;
+  height: 5rem;
+  width: 8rem;
   margin-right: 0.5rem;
 }
 
@@ -113,6 +117,7 @@ body {
   background-color: rgba(248, 205, 205, 255);
   height: fit-content;
   width: 100%;
+  box-shadow: 10px 10px 100000px 40px brown inset;
 }
 
 .img-div {
@@ -123,7 +128,9 @@ body {
 .img-fluid {
   height: fit-content;
   width: fit-content;
-  border: brown solid;
+
+  border: thick double brown;
+
   border-radius: 1rem 1rem;
   margin: 3rem 0rem 1rem 0rem;
 }
@@ -180,4 +187,60 @@ body {
 }
 #footer-page {
   margin-top: 0;
+}
+
+/* index page  */
+.container-index {
+  height: 100%;
+}
+.card-title-sc {
+  font-size: 2rem;
+}
+
+.cards-sc {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.card-sc {
+  margin: 2rem;
+  margin-bottom: 4rem;
+  display: inline-flex;
+  border-color: hotpink;
+  box-shadow: 0.2rem 0.2rem 1rem pink;
+}
+
+.card-body-sc {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+.card-sc-btn {
+  height: 2.5rem;
+}
+
+.body-index {
+  background-color: rgba(255, 192, 203, 0.2);
+  width: 100%;
+  height: 100%;
+}
+
+/* ques*/
+
+#years li {
+  font-weight: bolder;
+  font-size: 2rem;
+}
+
+.body-ques {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.body-ques .card {
+  margin: 5rem 5rem 5rem 5rem;
 }

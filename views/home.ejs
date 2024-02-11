@@ -8,13 +8,13 @@
 <div class="container-fluid" id="cont-home">
   <div class="img-div">
     <img
-      src="https://lh3.googleusercontent.com/pw/ABLVV87vqTKM0xJ6kBiShZL0NcxdZJp70zOHOUSq1BvdRXnLt455b-iEtoxjPCutMDz00T7NP38KCc-pufmF3sohxXTalvZP_5p3ST9dHv4LxYJPo9w4TH_TA0z3PzmbKo7wf2GreMRdgTMhfz8LZZXgoJG7NjipUErBdKuRvVjELyGvf2I34DHLpY1yhEVFrWpRQkI64ehrZ1zDoRxCVR-8P8OWlKrCUKICbcIMJLsbc3g_HmVq61Nus3h7tkyyT8TNzF3EZSa7xJBvqrrPfoEBrG6DN98N8LLggYs60Yo4jVrl_aw61w2t-i8VOfgbYHdUmlMWPUaPNcbUIfhMeVsCjwnJTmTwMeBr_WfoI7T-ytvKnrrb3pdmsD45TIGbL2Esgjavo41Cgguh9Gdxl9ekSk4fQbRJMemZNDZwpputvBhT9ffKSd2aaozHDNLO4mQ2_MmNrevCuzVc51G5UVHy3X4KamwjJRdNGzhptxdkNx8-vkEELfl8NdkFUXBVVoTLhahK7S9_HXk3Zr80MsvzK5jTxxk1r93ouwHNnxOUBxdggrBxFAF4CCc7I99aVh7ZF4FRDK9X9roDp2DE19EyM7bWW-tX0oJjAWZmkasqQqJRls78ipWsBS5gTFn8RszPgp_bvuAbCT7aLXZAcAgx0n8bICKFD2Yl3wfZDQixuArAFRHgod_Ed0EEM_VHfQGivM7jal3wErQyQGzQnwzBV9t6g6OB4mzCRBFtZIM1fOYJeDH88ZWmQzOol7w4PJeSBNiFDO7bheSjqpqGaMY2rmkmXqH2V8BIRApBPgxjGEX4u5niCUJ6LyMUHEUFW1eizRbPpMtAwDvGBNQEq26erJCUQZ7y7wIu6kw05I5_mHNXn559rV5LWZ3W2YrseJt3XZ37jk70WfsPjrd13PK_wS-tfdErrwud2maJlW4rtzgXQGKgE6GsheYrH8r4bIxHyF5F9SJ45BscimQfveAvJCdjyyulGQ=w1306-h854-s-no-gm?authuser=0"
+      src="https://lh3.googleusercontent.com/pw/ABLVV86bXFbudscope--Dllbil9f_YqqaDcPP3GaEw8PH13Otx_zUKHomX2OcyNrjkzKjtMUwsYCk_hPcjdUjy0Ty86Fz1BWzAavf8kDdEV26M3Z4kuP0vfqUONDUuNJPxOY-LgHuBDRBkJHYSgxw3xkKO8j3vth22UEvD_wwMS4-nd1b4Pqe1rr8ZjPMlDTnDe6jNrcliE5WDLRfFnwMs9x3RTfvC4O7RRebMSlH7cOezeDxH9TekmNUwcKV0lbidWAf9jO_LdZBcgIQxvNINdOGGlLxiAnmZDXPlZgFnSF3Nq0cpx49gYGVrU_9lAZvYU-fd1uJH9-wIn9faCdosSldxUqa_TRlsmema8wmntzPZXAuq0DkS-vd8RuaTHSW9E6ch55KRYJHTrnyBwReTwjr4rBCrO2TPqrFd-umfzBvXuPh75ML7oCq8tJln6b4p5IZv_w1j1jAwmoWzKRM-D0g1l-h-p7LblJ_LH2NuYG8M8iaVyxeIpLkr3w7J6ZOY5Mji28Cp3BH6_SiZovQOE0GfnvsIsGNb-OvZE5kb8mDBh_5vWsbxPX1pAIcE__Awl7yT2ERB5XDJdnGLx0upFLN6rxrCmRur2TRo4_r-wgfUQSBTJDX2-JKuPySEZpvNF1na8xhU2igHeZHlfN9VgdBX0hbDwqatu6H57NUF6WISRWEXuIDMjrN6K4bXG6q1RDQIqvgM331dtNea9kJXUEPoNtnLWfmTTr9eaJiSLk7OMu0T11Rg-uHMePsRfwvwsyk1lW5eJTMfH2qyfcc91FhRK9EQ8-HyHOJeD_xP23AipttzVr_SWwdh5VOpzhm9tE3oudI6vJxQ2TLbGCCOTwsZpBo3V657oKkNDSA25PR9Po3vehP2RGNBG0o-H5il_9vzj3V2HymC2CenW4uF4PtPtAB9GxT5wPkAP5m63HUY4evhYZSrJ3uLNEiQnEsgh8rJN6Xqq1aUNIJdmm7qpsrlxjF5sXXQ=w1306-h854-s-no-gm?authuser=0"
       class="img-fluid"
       alt="..."
     />
   </div>
 
-  <form action="/bookindex" method="get">
+  <form action="/subject" method="get">
     <div class="selections" style="overflow: hidden">
       <!-- school -->
       <%-include("selections/btns/schoolbtn.ejs")%>
@@ -31,10 +31,16 @@
           width: 50rem;
           height: 4rem;
         "
-        type="submit"
+        type="button"
+        id="indexsubmitbtn"
       >
         SUBMIT
       </button>
+      <h5 id="warningtext"></h5>
     </div>
   </form>
 </div>
+
+<script>
+  // <%-include("selections/btnscript/selectionscript.js")%>
+</script>

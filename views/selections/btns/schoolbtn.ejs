@@ -1,7 +1,7 @@
 <div class="school">
   <button
     class="btn btn-lg focus-ring focus-ring-primary selections-btn"
-    style="background-color: #402b3a; color: white; width: 50rem; height: 4rem"
+    style="background-color: #402b3a; color: white; width: 50rem; height: 4rem; font-weight: bolder;"
     type="button"
     data-bs-toggle="offcanvas"
     data-bs-target="#schoolOffcanvas"
@@ -12,7 +12,7 @@
   </button>
   <input
     type="text"
-    name="selections[school]"
+    name="school"
     id="schoolname"
     style="display: none"
   />
@@ -36,11 +36,12 @@
     </div>
     <div class="offcanvas-body">
       <!--  -->
-      <ol class="list-group list-group-numbered" id="clickableList">
+      <ol class="list-group list-group-numbered" id="clickableListschool">
         <%for(school of schools){%>
 
         <li class="list-group-item list-group-item-primary">
           <%=school.name%>
+          <h1 style="display: none" id="myschool"><%= JSON.stringify(school) %></h1>
         </li>
 
         <%}%>
@@ -49,19 +50,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  let btnschool = document.querySelector("#btnschool");
-  let inpforschool = document.querySelector("#schoolname");
-  let btncloseschool = document.querySelector("#btn-close-school");
-
-  const listItems = document.querySelectorAll("#clickableList li");
-  listItems.forEach((item) => {
-    item.addEventListener("click", function () {
-      const text = this.textContent.trim();
-      btnschool.textContent = text;
-      inpforschool.value = text;
-      btncloseschool.click();
-    });
-  });
-</script>

@@ -1,0 +1,84 @@
+<%layout("/layouts/boilerplate.ejs")%>
+<div class="body-index">
+  <div
+    class="container"
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    "
+  >
+    <form action="/index" id="indexform">
+      <div class="dropdown-center">
+        <button
+          class="btn btn-lg btn-success dropdown-toggle"
+          style="
+            width: auto;
+            padding: 0rem auto 0rem auto;
+            height: 20rem;
+            font-weight: bolder;
+            font-size: 1.5rem;
+          "
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#schoolOffcanvas"
+          aria-expanded="false"
+        >
+          ~~~Choose The Subject~~~
+        </button>
+        <div
+          class="offcanvas offcanvas-end"
+          data-bs-theme="dark"
+          data-bs-scroll="true"
+          tabindex="-1"
+          id="schoolOffcanvas"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="schoolOffcanvas">
+              Select Your Subject Name <br />From Below :
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              id="btn-close-school"
+              data-bs-dismiss="offcanvas"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <!--  -->
+            <ol
+              class="list-group list-group-numbered sublist"
+              id="clickableListschool"
+            >
+              <%for(subj of subjects){%>
+                <li class="list-group-item list-group-item-danger"><%=subj.name%></li>
+                <%}%>
+            </ol>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+      <input
+        type="text"
+        id="forminput"
+        name="subject"
+        style="display: none"
+      />
+    </form>
+  </div>
+</div>
+<script>
+  let list = document.querySelectorAll(".sublist");
+  let h1 = document.querySelector("#mysubject");
+
+  let form = document.querySelector("#indexform");
+  let listItems = document.querySelectorAll(".sublist li");
+  let inp = document.querySelector("#forminput");
+  listItems.forEach((li) => {
+    li.addEventListener("click", () => {
+      inp.value = li.textContent.trim();
+      form.submit();
+    });
+  });
+</script>
