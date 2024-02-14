@@ -10,7 +10,8 @@ body {
 }
 
 nav {
-  background-color: rgba(255, 192, 203, 0.2);
+  /* background-color: rgba(255, 192, 203, 0.4); */
+  background-color: rgb(77, 19, 28);
 }
 
 .navbar-brand {
@@ -129,7 +130,7 @@ nav {
   height: fit-content;
   width: fit-content;
 
-  border: thick double brown;
+  border: thick dashed brown;
 
   border-radius: 1rem 1rem;
   margin: 3rem 0rem 1rem 0rem;
@@ -170,8 +171,10 @@ nav {
 
 #footer-page {
   width: 100%;
-  padding: 1rem 0 1rem 0;
-  background-color: #ebebeb;
+  padding: 2rem 0 5rem 0;
+
+  background-color: rgba(255, 192, 203, 0.2);
+  /* margin-bottom: 4rem; */
 }
 .f-info-socials i {
   font-size: 1.2rem;
@@ -215,7 +218,7 @@ nav {
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .card-sc-btn {
@@ -238,9 +241,105 @@ nav {
 .body-ques {
   display: flex;
   flex-wrap: wrap;
-  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 25rem;
 }
 
 .body-ques .card {
   margin: 5rem 5rem 5rem 5rem;
+  display: inline-flex;
+  border-color: hotpink;
+  box-shadow: 0.2rem 0.2rem 1rem pink;
+}
+
+.body-index-sub {
+  overflow: hidden;
+}
+
+/* login form  */
+.body-login {
+  height: fit-content;
+  padding-bottom: 10rem;
+  overflow: hidden;
+}
+
+.cont-up-form {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: baseline;
+}
+
+.cont-up-form input {
+  padding: 2rem 2rem 10% 2rem;
+}
+
+#imglogin {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(77, 19, 28);
+  border-radius: 0 0 0 8rem;
+}
+@media only screen and (max-width: 770px) {
+  #imglogin {
+    width: 100%;
+  }
+}
+#imglogin img {
+  height: fit-content;
+  border-radius: 8rem;
+}
+
+.form-cont {
+  padding: 20% 2rem 2rem 20%;
+  font-weight: bolder;
+  word-spacing: 0.5rem;
+  font-size: larger;
+}
+
+.user-login {
+  margin-bottom: 8%;
+}
+
+#login-btn {
+  background-color: rgb(255, 60, 99);
+  border: white dashed;
+}
+
+#login-btn:hover {
+  background-color: rgba(100, 13, 31, 1);
+}
+
+#theimgonlogin {
+  box-shadow: rgba(255, 60, 99, 0.5) 0rem 0rem 90rem 8rem;
+  transition: 0.4s ease-in-out 0s;
+}
+
+#imglogin:hover {
+  overflow: hidden;
+  #theimgonlogin {
+    box-shadow: rgba(255, 60, 99, 1) 0rem 0rem 90rem 4rem;
+  }
+}
+
+#regis-btn {
+  background-color: rgb(77, 19, 28);
+  color: white;
+}
+
+#regis-btn:hover {
+  background-color: rgb(11, 94, 31);
+}
+
+#regis-btn a {
+  text-decoration: none;
+  color: white;
+}
+
+
+.form-control {
+  font-size: larger;
 }

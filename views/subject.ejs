@@ -1,7 +1,7 @@
 <%layout("/layouts/boilerplate.ejs")%>
-<div class="body-index">
+<div class="body-index body-index-sub">
   <div
-    class="container"
+    class="container container-sub"
     style="
       display: flex;
       justify-content: center;
@@ -14,7 +14,7 @@
         <button
           class="btn btn-lg btn-success dropdown-toggle"
           style="
-            width: auto;
+            width: 100%;
             padding: 0rem auto 0rem auto;
             height: 20rem;
             font-weight: bolder;
@@ -52,19 +52,16 @@
               id="clickableListschool"
             >
               <%for(subj of subjects){%>
-                <li class="list-group-item list-group-item-danger"><%=subj.name%></li>
-                <%}%>
+              <li class="list-group-item list-group-item-danger">
+                <%=subj.name%>
+              </li>
+              <%}%>
             </ol>
             <!--  -->
           </div>
         </div>
       </div>
-      <input
-        type="text"
-        id="forminput"
-        name="subject"
-        style="display: none"
-      />
+      <input type="text" id="forminput" name="subject" style="display: none" />
     </form>
   </div>
 </div>

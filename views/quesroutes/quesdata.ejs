@@ -1,16 +1,47 @@
 <%layout("/layouts/boilerplate.ejs")%>
 <div class="body-index body-ques">
-<div class="card" style="width: 18rem;">
-  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII=" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">midsem</p>
+  <div class="card content-card" style="width: 18rem">
+    <img
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body">
+      <p class="card-text">midsem</p>
+    </div>
   </div>
-</div>
-<div class="card" style="width: 18rem;">
-  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII=" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">end Sem</p>
+  <div class="card content-card" style="width: 18rem">
+    <img
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body">
+      <p class="card-text">end Sem</p>
+    </div>
+  </div>
+  <div>
+    <h5>CR ko bolo Or Dale</h5><br>
+    <a class="btn btn-lg btn-primary" href="/currcr">Click Here</a>
   </div>
 </div>
 
-</div>
+<script>
+  let cards = document.querySelectorAll(".content-card");
+  let body = document.querySelector(".body-ques");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      let form = document.createElement("form");
+      let inp = document.createElement("input");
+      form.target = "_blanck";
+      inp.name = "target content";
+      inp.value = "test.pdf";
+      form.action = "/showfile";
+      inp.style = "display:none;";
+      form.style = "display:none;";
+      form.append(inp);
+      body.append(form);
+      form.submit();
+    });
+  });
+</script>
