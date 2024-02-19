@@ -147,7 +147,7 @@
     </form>
     <div id="imglogin">
       <img
-        src="https://lh3.googleusercontent.com/pw/ABLVV86U3mTm90FxL7xF-T7rYr5xpgB8Hx1IX9yTvYomWWW3gAL_vt42MogK_8hQrMBtrmmatsr3rqig27KdKDwmSlMLEnMpjn3QFEHRlxQuTzAt31P7H_dxzObZWmU4JToDLAgfeNsxQTtn_BBcHCOXIIG1FxQHjSIpVp9xCUCv8__O4WzXRYEltPYL3nsH-EOoVoJEnbwCxFX1gfvSRcWWO-rRw2ERKnxp-tZ1dtYp2eBiITz3b72kk8hnZo7cjdoPCqo0vS_BD136ksWcSU0qrANjzR_3HkOFEzMB89nseIKf2qjr0QEh-wEhT_3xuhmJDbVvaXjC8D83RnD3j8vLPKvZxQZRirgOP1bX8KgnyNGDUYlBB2kT9NZSo-gR3s3Uv2fkQRY4Vsciq_qDl5fEIgB5HCZQLrMo28O5CJlQldzPjANbENlR8qDsrL9Pe3G1RMs47gp5hgxFjVs9Ay90rV2Pe8sTFB8dIqSLZRVWavyp0hPpaRhcz5HY8XnGmWErq1qx6PZHvfkgV3Ed2mbV6LyLqeD2-knCWivTYuB99qTZzSWZGJctGJlXobDC8U3wQ-fpbENDPw5eioSg53N0FWae6EC7XSkWikOVNJ58K9V7N6qB43thr2JdFfQ9YSFXPF4fQrGQrrXS2Rwf9lyws0rHRj8BLGxHrRvKJflNaJiOSeCwBmop1OOfdxA0hXuUA8qkKyIb1NSr9-cGZeySh8GiALB-EjEqdk4EaLNcOWwaIfWZk2GBcTPTLPeOr9jcACb0kiR0gZmp3PCMm6p-sv1Lxnxiz6CWTj1ZI8aMR5c4IkF0ShaZ735Gw8fXF4L-EztX15vukCInXH7-DBwZCx52676VLePhUljtHB7PSgFwXGL7P5vBjRtg1Ud1V4yv0weiPMHiexm86gFhclGVNV4unNPy_oXCU2uhF_BPT7GX-0hgnfcXtSEZpULr8OVkATwwYE_RRTJ-1thQ1rruYU9--v3X=w1306-h854-s-no-gm?authuser=0"
+        src="https://res.cloudinary.com/ddxv0iwcs/image/upload/v1707926485/qbon_DEV/Screenshot_2024-02-07_at_10.01.59_AM_mbeifo.png"
         alt="..."
         class="col-md-6"
         id="theimgonlogin"
@@ -188,12 +188,11 @@
     courseSelect.innerHTML = "";
     const response = await fetch(`/getcourses?school=${schoolName}`);
     const courses = await response.json(); //response is json and courses is js object
-
     // Populate select options for courses
     courses.forEach((course) => {
       const option = document.createElement("option");
-      option.text = course.name;
-      option.value = course.name;
+      option.text = course;
+      option.value = course;
       courseSelect.appendChild(option);
     });
     // Set the first option as default for the course select
@@ -222,12 +221,12 @@
     // Populate select options for semesters
     semesters.forEach((semester) => {
       const option = document.createElement("option");
-      option.text = semester.number;
-      option.value = semester.number;
+      option.text = semester;
+      option.value = semester;
       semesterSelect.appendChild(option);
     });
     // Set the first option as default for the course select
-    semesterSelect.value = semesters[0].name;
+    semesterSelect.value = semesters[0];
     // Trigger change event manually
     semesterSelect.dispatchEvent(new Event("change"));
   };

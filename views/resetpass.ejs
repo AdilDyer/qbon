@@ -1,0 +1,62 @@
+<% layout("/layouts/boilerplate") %>
+<!-- explicityly linking stylesheet as while using req.params sometimes stylesheet doesnt appear  -->
+<link rel="stylesheet" href="/style.css" />
+<div class="body-index">
+  <div class="container container-newpass">
+    <form action="/resetpass" method="post" class="needs-validation" novalidate>
+      <div class="mb-5">
+        <label for="exampleInputEmail1" class="form-label">Please Enter The New Password :  </label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          id="exampleInputEmail1"
+          required
+        />
+        <div id="emailHelp" class="form-text">
+          We'll never share your Password with anyone else.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Confirm The Password :</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          required
+        />
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1">I will Not Forgot from Now !</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    "use strict";
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll(".needs-validation");
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+</script>

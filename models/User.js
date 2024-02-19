@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const School = require("./school");
+const Course = require("./course");
+const Semester = require("./semester");
 const passportLocalMongoose = require("passport-local-mongoose");
 const userSchema = new mongoose.Schema({
   email: {
@@ -7,7 +9,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   school: {
-    type: String,
+    type: mongoose.Types.ObjectId,
+    ref: School,
     required: true,
   },
   name: {
@@ -15,11 +18,13 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   course: {
-    type: String,
+    type: mongoose.Types.ObjectId,
+    ref: Course,
     required: true,
   },
   semester: {
-    type: Number,
+    type: mongoose.Types.ObjectId,
+    ref: Semester,
     required: true,
   },
   //username and pass are defalt added by passport

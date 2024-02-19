@@ -49,6 +49,17 @@ nav {
   font-weight: 900;
 }
 
+#profileimgdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#profileimg {
+  border-radius: 50%;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
 /* home page */
 
 /* motivational container */
@@ -288,6 +299,20 @@ nav {
     width: 100%;
   }
 }
+
+@media only screen and (min-width: 770px) {
+  #theimgonlogin {
+    box-shadow: rgba(255, 60, 99, 0.5) 0rem 0rem 90rem 8rem;
+    transition: 0.4s ease-in-out 0s;
+  }
+
+  #imglogin:hover {
+    overflow: hidden;
+    #theimgonlogin {
+      box-shadow: rgba(255, 60, 99, 1) 0rem 0rem 90rem 4rem;
+    }
+  }
+}
 #imglogin img {
   height: fit-content;
   border-radius: 8rem;
@@ -313,18 +338,6 @@ nav {
   background-color: rgba(100, 13, 31, 1);
 }
 
-#theimgonlogin {
-  box-shadow: rgba(255, 60, 99, 0.5) 0rem 0rem 90rem 8rem;
-  transition: 0.4s ease-in-out 0s;
-}
-
-#imglogin:hover {
-  overflow: hidden;
-  #theimgonlogin {
-    box-shadow: rgba(255, 60, 99, 1) 0rem 0rem 90rem 4rem;
-  }
-}
-
 #regis-btn {
   background-color: rgb(77, 19, 28);
   color: white;
@@ -339,7 +352,51 @@ nav {
   color: white;
 }
 
-
 .form-control {
   font-size: larger;
+}
+
+/* accounts   page */
+
+.cred-names {
+  background-color: pink;
+  color: white;
+}
+
+.container-uploads {
+  padding: 2rem 1rem 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* send reset password link page */
+#container-passreset {
+  padding: 6rem;
+  text-align: center;
+  font-weight: bolder;
+}
+
+@media only screen and (min-width: 400px) {
+  #container-passreset {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem;
+    height: 70vh;
+    text-align: center;
+    font-weight: bolder;
+  }
+}
+
+
+
+.container-newpass{
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }

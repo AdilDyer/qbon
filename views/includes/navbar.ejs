@@ -3,7 +3,7 @@
     <a href="/" id="logo-icon"> </a>
     <a class="navbar-brand" href="/">
       <img
-        src="https://lh3.googleusercontent.com/pw/ABLVV87Db7rh2C3cnlTppGELMVZvXnGqiYzPhz_q-5YrSa1OaqOAnFLCrsq9CAOPEDszBsmJ79AvwY4gmSGo3uV8TXCkbnfzutX4TTmokWY-oJ5u1_XeDYHk4It4Fw4BGjPzArAHrw8ME7DeTnFquu3HscrVswnk_AqPgp-Dbg3CR_1J3ooorpfWahIYs7cETq_3ycvyvW7ZNCBHG04QKObbofVStljqWhqK_qr3_lCyx6HX9Gh35W6CVyvr3cmrMB-JP1o4Td2LvSVE9ZcRUbCDKOmj7_IiKksiz_QiJBDq6Z4TR3RB9DnInI_eR5FVniCbg4t20P9-7I_y83SLoaPyyOgs060QQFhIpGqsyCe7CnRUQ904i8rAC8kEhl97ySHx7CudVtteaqne_tIY04GkwaKI3Kk6N22tZBjQPq4AjYkB0Y9LujRVbGZMwf-0cIqtug3M0mlaIfvvanm8SB0JeKtBmm8C6LdJSKYiDRcnrx4reVIpF4sLUy8UpJ53Lv_Vhe9eG6J3czC-vTK2iSz7RP_bg-de8FGErnsuGbliz0nKswv-m5oLT2d4Kc76rMzHqM1JC4zeOnAlbLiBK8LfPCvUnrFOimAuyrvI6PbPQSQ7t5_WhscGjCP9-ZcJwUQ-obJPkC2E9zxoedi3EjWz8b704L0K9XpJsW3VUDPgdw6IhvdgaAYGPRRUQymFrd09WRufYUhbtRCE7J6dAHKzZ6bGitXO6pBSYrzSXWmEC8hzhdSJtLmb0Vg2SJFcq2kb9dlDXCIVCjjZTQMUaMhviYgl_sNzV2562LFrdTo0ulazPSBU4a0B0T5tXc3g9rqe7oKsj-n2MzCyzNtO1_-f62nwfYoUutgRxrsbn1Q7S_gIcQoDYl6-MUCp2ffoHAo__qkpZNqEEptCDvFjJep4fGZ8zuDcPw_y-ia1P3NYD0mSRqTxKGQ6lOBwSj3lEfjQ2pAc_1pLgn_dx6k3xeYv-szqAlD1iQ=w1306-h854-s-no-gm?authuser=0"
+        src="https://res.cloudinary.com/ddxv0iwcs/image/upload/v1707926476/qbon_DEV/Screenshot_2024-02-07_at_10.04.12_AM_v8rboz.png"
         alt="dLogo"
         width="80"
         height="25"
@@ -13,14 +13,49 @@
 
     <button
       class="navbar-toggler"
+      style="background-color: pink"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNavAltMarkup"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
+        <% if(isAuthenticated) { %>
+        <div class="dropdown">
+          <button
+            class="btn dropdown-toggle nav-link"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              id="profileimg"
+              src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+              alt=""
+            />
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                href="/account"
+                style="color: mediumblue"
+                >Your Account</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="/signout" style="color: red"
+                >Sign Out</a
+              >
+            </li>
+          </ul>
+        </div>
+        <% } %>
+
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-danger homebtn-btn">
             <a class="nav-link homebtn" href="/">Home</a>
@@ -33,3 +68,10 @@
     </div>
   </div>
 </nav>
+
+<!-- <script>
+  document.getElementById("profileimgdiv").addEventListener("click", () => {
+    document.getElementById("profile-selection").style.display = "inline";
+    document.getElementById("profile-selection").click();
+  });
+</script> -->

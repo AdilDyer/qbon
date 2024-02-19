@@ -26,6 +26,13 @@ listItemsschool.forEach((item) => {
     let jsonstring = document.querySelector(".choosenschool h1").innerText;
     let schooljson = JSON.parse(jsonstring);
 
+    // let schoolChoosen = schools.forEach((school) => {
+    //   if (school.name == item.textContent) {
+    //     return school;
+    //   }
+    //   console.log(school);
+    // });
+    // console.log(schoolChoosen);
     btnschool.textContent = schooljson.name;
     inpforschool.value = schooljson.name;
     btncloseschool.click();
@@ -33,9 +40,24 @@ listItemsschool.forEach((item) => {
     let btnprogram = document.querySelector("#btnprogram");
     let olprogram = document.querySelector("#clickableListprogram");
 
+    let coursesString = document.querySelector("#getcourses").innerText;
+    let courses = JSON.parse(coursesString);
+    let semString = document.querySelector("#getsems").innerText;
+    let semesters = JSON.parse(semString);
+
+    const matchingCourses = [];
+    schooljson.courses.forEach((schoolCourseId) => {
+      const matchingCourse = courses.find(
+        (course) => course._id === schoolCourseId
+      );
+      if (matchingCourse) {
+        matchingCourses.push(matchingCourse);
+      }
+    });
+
     btnprogram.addEventListener("click", () => {
       olprogram.innerHTML = "";
-      schooljson.courses.forEach((course) => {
+      matchingCourses.forEach((course) => {
         let listitem = document.createElement("li");
         listitem.classList.add("list-group-item");
         listitem.classList.add("list-group-item-primary");
@@ -66,14 +88,18 @@ listItemsschool.forEach((item) => {
           btnsemester.addEventListener("click", () => {
             let ulsemester = document.querySelector("#clickableListsemester");
             ulsemester.innerHTML = "";
-            schooljson.courses.forEach((course) => {
+            matchingCourses.forEach((course) => {
               if (course.name == programsname.textContent) {
                 for (sem of course.semesters) {
-                  let listitem = document.createElement("li");
-                  listitem.classList.add("list-group-item");
-                  listitem.classList.add("list-group-item-primary");
-                  listitem.textContent = sem.number;
-                  ulsemester.append(listitem);
+                  for (semobj of semesters) {
+                    if (semobj._id == sem) {
+                      let listitem = document.createElement("li");
+                      listitem.classList.add("list-group-item");
+                      listitem.classList.add("list-group-item-primary");
+                      listitem.textContent = semobj.number;
+                      ulsemester.append(listitem);
+                    }
+                  }
                 }
               }
             });
@@ -112,8 +138,12 @@ listItemsschool.forEach((item) => {
 let submitbtn = document.querySelector("#indexsubmitbtn");
 let warnh1 = document.querySelector("#warningtext");
 submitbtn.addEventListener("click", (event) => {
-  if (inpforprogram.value == "" || inpforschool.value == "" || inpforsemester.value == "") {
-    alert( "Please Fill all the Fields !");
+  if (
+    inpforprogram.value == "" ||
+    inpforschool.value == "" ||
+    inpforsemester.value == ""
+  ) {
+    alert("Please Fill all the Fields !");
   } else {
     submitbtn.closest("form").submit();
   }

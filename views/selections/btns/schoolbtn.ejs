@@ -1,7 +1,13 @@
 <div class="school">
   <button
     class="btn btn-lg focus-ring focus-ring-primary selections-btn"
-    style="background-color: #402b3a; color: white; width: 50rem; height: 4rem; font-weight: bolder;"
+    style="
+      background-color: #402b3a;
+      color: white;
+      width: 50rem;
+      height: 4rem;
+      font-weight: bolder;
+    "
     type="button"
     data-bs-toggle="offcanvas"
     data-bs-target="#schoolOffcanvas"
@@ -10,12 +16,7 @@
   >
     ~~~ Select Your School ~~~
   </button>
-  <input
-    type="text"
-    name="school"
-    id="schoolname"
-    style="display: none"
-  />
+  <input type="text" name="school" id="schoolname" style="display: none" />
   <div
     class="offcanvas offcanvas-end"
     data-bs-theme="dark"
@@ -41,12 +42,18 @@
 
         <li class="list-group-item list-group-item-primary">
           <%=school.name%>
-          <h1 style="display: none" id="myschool"><%= JSON.stringify(school) %></h1>
+          <h1 style="display: none" id="myschool">
+            <%= JSON.stringify(school) %>
+          </h1>
         </li>
 
         <%}%>
       </ol>
+
       <!--  -->
     </div>
   </div>
 </div>
+<p id="getcourses" style="display: none"> <%= JSON.stringify(courses) %></p>
+
+<p id="getsems" style="display: none"><%= JSON.stringify(semesters) %></p>

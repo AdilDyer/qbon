@@ -1,0 +1,45 @@
+<%layout("/layouts/boilerplate.ejs")%>
+<div class="body-index">
+  <div class="container" id="container-passreset">
+    <form action="/forgetpass" method="post" id="reset-form">
+      <label for="emailcollector" class="form-label"
+        >A Password Reset link will be sent through a Email to the Following
+        address :</label
+      ><br />
+      <input
+        style="text-align: center"
+        type="email"
+        id="emailcollector"
+        name="email"
+        class="form-control"
+        value="<%=email%>"
+      />
+      <br /><br />
+      <button
+        class="btn btn-success btn-lg"
+        id="send-link-btn"
+        style="text-decoration: none; color: aliceblue"
+      >
+        Send The Link
+      </button>
+    </form>
+    <h5 style="display: none" id="after-click-text">
+      The Password Reset link has been Sent Successfully !
+    </h5>
+  </div>
+</div>
+
+<script>
+  document
+    .getElementById("send-link-btn")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      const form = document.getElementById("reset-form");
+      form.submit();
+      document.getElementById("reset-form").style.display = "none";
+      document.getElementById("after-click-text").style.display = "block";
+      setTimeout(() => {
+        window.close();
+      }, 3000);
+    });
+</script>

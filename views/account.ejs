@@ -1,0 +1,80 @@
+<%layout("/layouts/boilerplate.ejs")%>
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td scope="row" class="cred-names">Name</td>
+      <th class="cred-names"><%=userDetails.name%></th>
+    </tr>
+    <tr>
+      <td scope="row" class="cred-names">Username</td>
+      <th><%=userDetails.username%></th>
+    </tr>
+    <tr>
+      <td scope="row">Email</td>
+      <th><%=userDetails.email%></th>
+    </tr>
+    <tr>
+      <td scope="row">Pass</td>
+      <th>
+        ******<br />
+        <button class="btn btn-light">
+          <a style="text-decoration: none; color: hotpink" href="/forgetpass"
+            >Forgot Password ?</a
+          >
+        </button>
+      </th>
+    </tr>
+    <tr>
+      <td scope="row">School</td>
+      <th><%=schoolName%></th>
+    </tr>
+    <tr>
+      <td scope="row">Course</td>
+      <th><%=courseName%></th>
+    </tr>
+    <tr>
+      <td scope="row">Semester</td>
+      <th>
+        <%=semno%> &nbsp; &nbsp;
+        <button class="btn btn-light">
+          <a
+            style="text-decoration: none; color: midnightblue"
+            href="/semchange"
+            >Passed to a new One ?</a
+          >
+        </button>
+      </th>
+    </tr>
+  </tbody>
+</table>
+<div class="body-index">
+  <h4>Your Uploaded Files :</h4>
+  <div class="container-uploads">
+    <div class="card content-card" style="width: 18rem">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <p class="card-text">end Sem</p>
+      </div>
+    </div>
+    <div class="card content-card" style="width: 18rem">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <p class="card-text">end Sem</p>
+      </div>
+    </div>
+  </div>
+</div>
