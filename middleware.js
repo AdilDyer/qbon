@@ -20,9 +20,8 @@ module.exports.isAuthenticated = (req, res, next) => {
   next();
 };
 
-
 module.exports.isValidResetLink = async (req, res, next) => {
-  if (req.isAuthenticated()) {
+  let checkFunc = async () => {
     try {
       const { token } = req.params;
       const now = new Date();
@@ -47,8 +46,11 @@ module.exports.isValidResetLink = async (req, res, next) => {
       console.error("Error validating reset link:", error);
       return res.status(500).send("Internal Server Error");
     }
+  };
+  if (req.isAuthenticated || req.query.notlogged == "true") {
+    checkFunc();
   } else {
+    console.log(req.isAuthenticated);
     return res.status(401).send("Please log in first!");
   }
 };
-

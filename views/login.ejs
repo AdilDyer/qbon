@@ -1,32 +1,12 @@
 <% layout("/layouts/boilerplate") %>
 <div class="body-index body-login">
   <div class="cont-up-form row g-3 needs-validation">
-    <form class="needs-validation col-md-6" novalidate accept="/login" method="post">
-      <!-- <div class="col-md-4">
-        <label for="validationCustom01" class="form-label"
-          >Your Good Name Pls..</label
-        >
-        <input
-          type="text"
-          class="form-control"
-          id="validationCustom01"
-          value="Mark"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <br><br>
-      <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Last name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="validationCustom02"
-          value="Otto"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div> -->
+    <form
+      class="needs-validation col-md-6"
+      novalidate
+      accept="/login"
+      method="post"
+    >
       <div class="form-cont">
         <div class="col-md-4 user-login" style="margin-right: 100rem">
           <label for="validationCustomUsername" class="form-label"
@@ -55,6 +35,16 @@
             required
           />
           <div class="invalid-feedback">Please provide a valid Pass.</div>
+          <br />
+          <button
+            class="btn btn-light"
+            type="button"
+            style="background-color: transparent"
+          >
+            <a style="text-decoration: none; color: brown" href="/forgetpass"
+              >Forgot Password ?</a
+            >
+          </button>
         </div>
 
         <!-- <div class="col-12">
@@ -89,6 +79,7 @@
         width="500"
       />
     </div>
+
     <button class="btn btn-lg" id="regis-btn">
       <a href="/register">New User? <br />Register Here !</a>
     </button>

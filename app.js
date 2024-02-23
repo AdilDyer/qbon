@@ -20,7 +20,6 @@ const flash = require("connect-flash");
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
 const upload = multer({ storage });
-
 const Course = require("./models/course");
 const Semester = require("./models/semester");
 const Subject = require("./models/subject");
@@ -30,7 +29,7 @@ const PasswordResetToken = require("./models/resetpass.js");
 const nodemailer = require("nodemailer");
 const uuid = require("uuid");
 const { isValidResetLink } = require("./middleware.js");
-
+const { ObjectId } = require("mongodb");
 const sessionOptions = {
   secret: process.env.SECRET,
   resave: false,
@@ -66,6 +65,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(isAuthenticated);
+
 main()
   .then(() => {
     console.log("Connected To db");
@@ -127,18 +127,6 @@ app.get("/showfile", (req, res) => {
   res.render("showfile.ejs");
 });
 
-// app.get("/upload", isLoggedIn, async (req, res) => {
-//   let user = req.user;
-//   let sem = await Semester.findOne({ _id: user.semester });
-//   let subIds = sem.subjects;
-//   let subs = [];
-//   await subIds.forEach(async (idno) => {
-//     let sub = await Subject.findOne({ _id: idno });
-//     subs.push(sub);
-//   });
-//   console.log(subs);
-//   res.render("upload.ejs", { subs: subs });
-// });
 app.get("/upload", isLoggedIn, async (req, res) => {
   try {
     let user = req.user;
@@ -181,13 +169,41 @@ app.get("/signout", (req, res) => {
 app.get("/account", async (req, res) => {
   let schoolName = (await School.findOne({ _id: req.user.school })).name;
   let courseName = (await Course.findOne({ _id: req.user.course })).name;
+  let courseData = await Course.findOne({ _id: req.user.course }).populate(
+    "semesters"
+  );
+  const semesterNumbers = courseData.semesters.map(
+    (semester) => semester.number
+  );
   let semNo = (await Semester.findOne({ _id: req.user.semester })).number;
   res.render("account.ejs", {
     userDetails: req.user,
     schoolName: schoolName,
     courseName: courseName,
     semno: semNo,
+    semesterNumbers: semesterNumbers,
   });
+});
+
+app.post("/updatesem", async (req, res) => {
+  let myCourse = await Course.findOne({ _id: req.user.course });
+
+  const desiredSemNumber = req.body.newsem;
+  let newSemId = [];
+  await myCourse.semesters.forEach(async (semId) => {
+    let semObj = await Semester.findOne({ _id: semId });
+    if (semObj.number == desiredSemNumber) {
+      console.log("milgya");
+      console.log(newSemId);
+      console.log(semObj._id);
+      newSemId.push(semObj._id);
+    }
+  });
+
+  let user = await User.findOne({ username: req.user.username });
+  user.semester = newSemId[0];
+  let result = await user.save();
+  res.redirect("/account");
 });
 
 app.get("/resetpass/:token", isValidResetLink, (req, res) => {
@@ -195,13 +211,13 @@ app.get("/resetpass/:token", isValidResetLink, (req, res) => {
 });
 app.post("/resetpass", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.user.username });
+    const user1 = await User.findOne({ username: req.body.username });
 
-    if (!user) {
+    if (!user1) {
       return res.status(404).send("User not found");
     }
 
-    await User.findByUsername(req.user.username, async (err, user) => {
+    await User.findByUsername(req.body.username, async (err, user) => {
       if (err) {
         res.send(err);
       } else {
@@ -212,7 +228,7 @@ app.post("/resetpass", async (req, res) => {
             await user.save();
             console.log("password changed successfully.");
             await PasswordResetToken.deleteMany({
-              email: req.user.email,
+              email: user1.email,
             });
             res.redirect("/");
           }
@@ -226,7 +242,10 @@ app.post("/resetpass", async (req, res) => {
 });
 
 app.get("/forgetpass", (req, res) => {
-  let email = req.user.email;
+  let email = " ";
+  if (req.user) {
+    email = req.user.email;
+  }
   res.render("forgetpass.ejs", { email: email });
 });
 
@@ -234,7 +253,8 @@ app.post("/forgetpass", (req, res) => {
   const userEmail = req.body.email;
   // Generate unique token and store it in the database along with the email
   // Send email with reset link
-  sendResetEmail(userEmail);
+  let loginChecker = req.isAuthenticated();
+  sendResetEmail(userEmail, loginChecker);
   res.status(200);
 });
 
@@ -260,13 +280,18 @@ async function storeToken(email, token, expiryTime) {
     console.error("Error storing token:", error);
   }
 }
-function sendResetEmail(email) {
+function sendResetEmail(email, loginChecker) {
   // Craft the email content with the reset link
   const token = uuid.v4();
   const expiry_time = generateExpiryTime();
   storeToken(email, token, expiry_time);
-  const resetLink = `http://localhost:8080/resetpass/${token}`;
-  const message = `<p style="color: red;">Hey NFSUian !</p>
+  let resetLink = " ";
+  if (loginChecker) {
+    resetLink = `http://localhost:8080/resetpass/${token}`;
+  } else {
+    resetLink = `http://localhost:8080/resetpass/${token}?notlogged=true`;
+  }
+  const message = `<p style="color: red;">Hey Dear Fellow NFSUian !</p>
 <br/>
 We received a request to reset the password associated with your account. If you did not make this request, you can safely ignore this email.
 <br/><br/>
@@ -421,37 +446,77 @@ app.post("/register", async (req, res) => {
 let insert = async () => {
   let qps = [
     {
-      year: 2000,
+      year: 2222,
       link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
     },
     {
-      year: 2001,
+      year: 2931,
+      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    },
+    {
+      year: 9999,
+      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    },
+    {
+      year: 1212,
       link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
     },
   ];
 
   let res = await Quespaper.insertMany(qps);
 
-  let subs = await Subject.insertMany({
-    name: "Fundamental of C Programming",
-    questionPapers: res.map((qp) => {
-      return qp._id;
-    }),
-  });
-  let sem = await Semester.insertMany({
-    number: "1",
-    subjects: subs.map((qp) => {
-      return qp._id;
-    }),
-  });
+  let subs1 = await Subject.insertMany(
+    {
+      name: "Basics Of Law",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+    {
+      name: "Human Basic Rights",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    }
+  );
+  let subs2 = await Subject.insertMany(
+    {
+      name: "Democracy and Law",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+    {
+      name: "Judicial Systems",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    }
+  );
+  let sem = await Semester.insertMany(
+    {
+      number: "1",
+      subjects: subs1.map((sub) => {
+        return sub._id;
+      }),
+    },
+    {
+      number: "2",
+      subjects: subs2.map((sub) => {
+        return sub._id;
+      }),
+    }
+  );
+
   let course = await Course.insertMany({
-    name: "B.tech",
+    name: "LLB",
     semesters: sem.map((qp) => {
       return qp._id;
     }),
   });
+
   let school = await School.insertMany({
-    name: "School of cybersecurity and digital forensics",
+    name: "School of Law and Social Justice",
     courses: course.map((qp) => {
       return qp._id;
     }),
@@ -459,3 +524,44 @@ let insert = async () => {
 };
 
 // insert();
+
+app.get("/signout", function (req, res, next) {
+  if (isAuthenticated) {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  }
+});
+
+let func = async () => {
+  let sems = await Semester.find({
+    _id: { $in: ["65cd0b8728a2f5e8e79ae142", "65d4995f143b88279b99ed41"] },
+  });
+
+  // await Course.updateOne(
+  //   { _id: "65cd0b8728a2f5e8e79ae144" },
+  //   {
+  //     _id: ObjectId("65cd0b8728a2f5e8e79ae144"),
+  //     name: "B.tech",
+  //     semesters: sems,
+  //     __v: 0,
+  //   },
+  //   {
+  //     multi: true, // Update all matching documents
+  //   }
+  // );
+
+  const updatedCourse = {
+    name: "B.tech",
+    semesters: sems,
+  };
+
+  await Course.updateOne({ _id: "65cd0b8728a2f5e8e79ae144" }, updatedCourse);
+
+  console.log(await Course.find());
+};
+
+// func();

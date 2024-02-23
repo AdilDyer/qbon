@@ -5,7 +5,21 @@
   <div class="container container-newpass">
     <form action="/resetpass" method="post" class="needs-validation" novalidate>
       <div class="mb-5">
-        <label for="exampleInputEmail1" class="form-label">Please Enter The New Password :  </label>
+        <label for="username" class="form-label"
+          >Please Enter The Username:
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          id="username"
+          required
+        />
+      </div>
+      <div class="mb-5">
+        <label for="exampleInputEmail1" class="form-label"
+          >Please Enter The New Password :
+        </label>
         <input
           type="password"
           class="form-control"
@@ -18,17 +32,25 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Confirm The Password :</label>
+        <label for="exampleInputPassword1" class="form-label"
+          >Confirm The Password :</label
+        >
         <input
           type="password"
           class="form-control"
           id="exampleInputPassword1"
           required
         />
-      </div>
-      <div class="mb-3 form-check">
+
+        <!-- <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">I will Not Forgot from Now !</label>
+        <label class="form-check-label" for="exampleCheck1"></label>
+      </div> -->
+        <div id="emailHelp" class="form-text">
+          Hakuna Matata!&nbsp;&nbsp; You can always come back here if you forgot
+          it again.
+          <br />
+        </div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

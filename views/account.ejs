@@ -24,7 +24,7 @@
       <th>
         ******<br />
         <button class="btn btn-light">
-          <a style="text-decoration: none; color: hotpink" href="/forgetpass"
+          <a style="text-decoration: none; color: purple" href="/forgetpass"
             >Forgot Password ?</a
           >
         </button>
@@ -42,20 +42,44 @@
       <td scope="row">Semester</td>
       <th>
         <%=semno%> &nbsp; &nbsp;
-        <button class="btn btn-light">
+        <!-- <button class="btn btn-light">
           <a
-            style="text-decoration: none; color: midnightblue"
+            style="text-decoration: none; color: purple"
+            id="semchanger"
             href="/semchange"
             >Passed to a new One ?</a
           >
-        </button>
+        </button> -->
+        <div class="dropdown" style="display: inline-block">
+          <form action="/updatesem" method="post" id="semform">
+            <button
+              class="btn btn-lg dropdown-toggle btn-light nav-link"
+              type="button"
+              id="semchanger"
+              style="color: purple; background-color: white; padding: 0.3rem"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Passed to a new One ?
+            </button>
+            <select class="dropdown-menu" id="semoptions" name="newsem">
+              <option value="<%=semesterNumbers[0]%>" selected>Select From Below</option>
+              <% for (semnumber of semesterNumbers) { %>
+              <option class="dropdown-item" value="<%= semnumber %>"><%= semnumber %></option>
+              <% } %>
+            </select>
+          </form>
+        </div>
       </th>
     </tr>
   </tbody>
 </table>
 <div class="body-index">
-  <h4>Your Uploaded Files :</h4>
-  <div class="container-uploads">
+  <br /><br />
+  <h4 style="background-color: purple; width: 100%; height: 2rem">
+    <p class="offset-1 text-light">Your Uploaded Files :</p>
+  </h4>
+  <div class="container-uploads body-ques">
     <div class="card content-card" style="width: 18rem">
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
@@ -77,4 +101,23 @@
       </div>
     </div>
   </div>
+  <br />
+  <br />
+  <h3 style="color: hotpink; text-align: center">
+    &hearts;Thank you for your kind Efforts !&hearts; <br />It means a Lot !
+  </h3>
+  <br /><br />
 </div>
+
+<script>
+  let changeSem = (nowsem) => {
+    document.getElementById("semform").submit();
+    //redirect to this page
+  };
+  // document.getElementById("semoptions").addEventListener("click", (event) => {
+  //   changeSem(event.target.value);
+  // });
+  document.getElementById("semoptions").addEventListener("change", (event) => {
+    changeSem(event.target.value);
+  });
+</script>
