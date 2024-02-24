@@ -2,7 +2,7 @@
 <div class="body-index body-ques">
   <div class="container container-index">
     <br />
-    <h2 style="text-align: center">Select From the Options :</h2>
+    <h2 style="text-align: center;color:maroon;">Select From the Options :</h2>
     <div class="cards cards-sc">
       <div class="card card-sc ques-card" style="width: 22rem; height: 35rem">
         <img
@@ -11,14 +11,14 @@
           alt="..."
         />
         <div class="card-body card-body-sc">
-          <h5 class="card-title card-title-sc">Question Papers</h5>
-          <p class="card-text">
+          <h5 class="card-title card-title-sc" style="color: maroon;">Question Papers</h5>
+          <p class="card-text" style="color: purple;">
             Treasure trove of practice questions designed to challenge your
             understanding, sharpen your skills, and reinforce your learning.
           </p>
 
           <a
-            href="/questionyear"
+            href="/questionyear/<%=subject%>"
             id="quesbtn"
             class="btn btn-primary card-sc-btn"
             >Go For This</a
@@ -32,13 +32,13 @@
           alt="..."
         />
         <div class="card-body card-body-sc">
-          <h5 class="card-title card-title-sc">Reference Materials</h5>
-          <p class="card-text">
-            otes, online resources, assignments, and supplementary readings
+          <h5 class="card-title card-title-sc" style="color: maroon;">Reference Materials</h5>
+          <p class="card-text" style="color: purple;">
+            Notes, online resources, assignments, and supplementary readings
             tailored to your course curriculum.
           </p>
 
-          <a href="/references" id="refbtn" class="btn btn-primary card-sc-btn"
+          <a href="/references/<%=subject%>" id="refbtn" class="btn btn-primary card-sc-btn"
             >Go For This</a
           >
         </div>

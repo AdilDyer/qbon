@@ -1,5 +1,7 @@
-<%layout("/layouts/boilerplate.ejs")%>
 
+<%layout("/layouts/boilerplate.ejs")%>
+<!-- when stylesheet stops working due to some reason , link it explicitly in that ejs file  -->
+<link rel="stylesheet" href="/style.css" />
 <div
   class="body-index"
   style="
@@ -48,26 +50,27 @@
     <div class="offcanvas-body">
       <!--  -->
       <ol class="list-group list-group-numbered" id="years">
-        <li class="list-group-item list-group-item-primary">2023-24</li>
-        <li class="list-group-item list-group-item-primary">2022-23</li>
-        <li class="list-group-item list-group-item-primary">2021-22</li>
-        <li class="list-group-item list-group-item-primary">2022-23</li>
+        <li class="list-group-item list-group-item-primary">2024</li>
+        <li class="list-group-item list-group-item-primary">2023</li>
       </ol>
       <!--  -->
     </div>
   </div>
 </div>
-
+<h6 style="display: none" id="subname"><%=subname%></h6>
 <script>
   let listItems = document.querySelectorAll("#years li");
   let form = document.createElement("form");
+  let h6 = document.getElementById("subname");
   let cont = document.querySelector(".body-index");
   listItems.forEach((li) => {
     li.addEventListener("click", (event) => {
-      form.action = "/quesdata";
+      let subname = h6.innerText.trim();
+      form.action = `/quesdata/${subname}`;
       let inp = document.createElement("input");
       inp.classList.add("d-none");
       inp.textContent = li.textContent;
+      inp.value = inp.textContent;
       inp.name = "quesyear";
       form.append(inp);
       cont.append(form);

@@ -1,5 +1,5 @@
 <%layout("/layouts/boilerplate.ejs")%>
-<table class="table table-striped table-dark">
+<table class="table table-striped table-dark mb-0">
   <thead>
     <tr>
       <th scope="col"></th>
@@ -20,7 +20,7 @@
       <th><%=userDetails.email%></th>
     </tr>
     <tr>
-      <td scope="row">Pass</td>
+      <td scope="row">Password</td>
       <th>
         ******<br />
         <button class="btn btn-light">
@@ -63,9 +63,13 @@
               Passed to a new One ?
             </button>
             <select class="dropdown-menu" id="semoptions" name="newsem">
-              <option value="<%=semesterNumbers[0]%>" selected>Select From Below</option>
+              <option value="<%=semesterNumbers[0]%>" selected>
+                Select From Below
+              </option>
               <% for (semnumber of semesterNumbers) { %>
-              <option class="dropdown-item" value="<%= semnumber %>"><%= semnumber %></option>
+              <option class="dropdown-item" value="<%= semnumber %>">
+                <%= semnumber %>
+              </option>
               <% } %>
             </select>
           </form>
@@ -75,35 +79,51 @@
   </tbody>
 </table>
 <div class="body-index">
-  <br /><br />
-  <h4 style="background-color: purple; width: 100%; height: 2rem">
-    <p class="offset-1 text-light">Your Uploaded Files :</p>
+  <h4
+    style="
+      background-color: #ff407d;
+      width: 93%;
+      height: 3rem;
+      border-radius: 50rem;
+      margin: 1rem auto 0 auto;
+    "
+  >
+    <p class="offset-1 text-light" style="padding-top: 0.4em">
+      Your Uploaded Files :
+    </p>
   </h4>
+
   <div class="container-uploads body-ques">
+    <%for(mat of matUploaded){%>
     <div class="card content-card" style="width: 18rem">
-      <img
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
-        class="card-img-top"
-        alt="..."
-      />
+      <img src="<%=mat.link%>" class="card-img-top" alt="..." />
+      <br />
       <div class="card-body">
-        <p class="card-text">end Sem</p>
+        <p class="card-text" style="font-weight: bolder"><%=mat.name%></p>
+        <hr />
+        <form action="/delete?_method=DELETE" method="post">
+          <input
+            type="text"
+            style="display: none"
+            value="<%=mat._id%>"
+            name="matid"
+          />
+          <input
+            type="text"
+            style="display: none"
+            value="<%=mat.year%>"
+            name="matyear"
+          />
+          <button class="btn btn-dark" id="del-mat-btn">Delete</button>
+        </form>
       </div>
+      <h6 style="display: none"><%=mat.link%></h6>
     </div>
-    <div class="card content-card" style="width: 18rem">
-      <img
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAA1BMVEUAAACnej3aAAAAR0lEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBgxUwAAU+n3sIAAAAASUVORK5CYII="
-        class="card-img-top"
-        alt="..."
-      />
-      <div class="card-body">
-        <p class="card-text">end Sem</p>
-      </div>
-    </div>
+    <%}%>
   </div>
   <br />
   <br />
-  <h3 style="color: hotpink; text-align: center">
+  <h3 style="color: red; text-align: center">
     &hearts;Thank you for your kind Efforts !&hearts; <br />It means a Lot !
   </h3>
   <br /><br />
@@ -119,5 +139,40 @@
   // });
   document.getElementById("semoptions").addEventListener("change", (event) => {
     changeSem(event.target.value);
+  });
+
+  //delete btn
+  let delBtns = document.querySelectorAll("#del-mat-btn");
+
+  delBtns.forEach((delBtn) => {
+    delBtn.addEventListener("click", (event) => {
+      event.stopPropagation(); // Stop event propagation
+      if (window.confirm("Are you sure you want to Delete the Material?")) {
+        delBtn.closest("form").submit();
+      } else {
+        event.preventDefault();
+      }
+    });
+  });
+
+  //card-click: redirection to that mat data
+  let cards = document.querySelectorAll(".content-card");
+  let body = document.querySelector(".body-ques");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      let h6 = card.querySelector("h6");
+      let form = document.createElement("form");
+      let inp = document.createElement("input");
+      form.target = "_blanck";
+      inp.name = "link";
+      inp.value = h6.innerText.trim();
+      form.action = "/showfile";
+      inp.style = "display:none;";
+      form.style = "display:none;";
+      form.append(inp);
+      body.append(form);
+      form.submit();
+    });
   });
 </script>

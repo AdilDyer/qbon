@@ -10,7 +10,7 @@
     >
       <div class="form-cont upload-form-cont">
         <div class="col-12 user-login" style="margin-right: 100rem">
-          <label for="filetype" class="form-label" style="margin-left: 0.3em;"
+          <label for="filetype" class="form-label" style="margin-left: 0.3em"
             >Which type of File is <br />it ?</label
           >
           <div class="input-group has-validation">
@@ -22,25 +22,46 @@
           </div>
         </div>
         <div class="col-12 user-login" style="margin-right: 100rem">
-          <label for="subname" class="form-label" style="margin-left: 0.3em;"
+          <label for="subname" class="form-label" style="margin-left: 0.3em"
             >For what Subject <br />is it ?</label
           >
           <div class="input-group has-validation">
             <select class="form-control" name="subject" id="subname" required>
               <% subs.forEach(function(sub) { %>
-              <option value="<%= sub.name%>"><%= sub.name %></option>
+              <option value="<%= sub._id%>"><%= sub.name %></option>
               <% }); %>
             </select>
             <div class="invalid-feedback">Please choose a Subject.</div>
           </div>
         </div>
-        <label for="file" class="form-label" style="margin-left: 0.3em;">Upload The File:</label>
+
+        <div class="col-12 user-login" style="margin-right: 100rem">
+          <label for="filename" class="form-label" style="margin-left: 0.3em"
+            >Please enter the File Name :
+          </label>
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              style="font-weight: bolder"
+              name="filename"
+              id="filename"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please enter a file-name.</div>
+          </div>
+        </div>
+
+        <label for="file" class="form-label" style="margin-left: 0.3em"
+          >Upload The Files:</label
+        >
         <input
           type="file"
-          name="file"
-          id="file"
+          name="files"
+          id="files"
           class="form-control"
           required
+          multiple
         />
         <div class="col-12">
           <br /><br />

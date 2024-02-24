@@ -16,14 +16,21 @@ nav {
   background-color: rgb(77, 19, 28);
   background-color: rgb(255, 239, 213);
   background-color: #ffcad4;
-  background-color: #F5E8DD;
-
+  background-color: #fff6e9;
+  background-color: rgba(245, 232, 221, 0.8);
+  background-color: rgba(176, 224, 230, 0.9);
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
   margin-right: auto;
+}
+.navbar-brand img {
+  transition: box-shadow 0.3s ease;
+}
+.navbar-brand img:hover {
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.2);
 }
 .navbar-nav {
   margin-left: auto;
@@ -50,6 +57,7 @@ nav {
 .homebtn-btn {
   background-color: #ff3c63;
 }
+
 .uploadbtn {
   color: white;
   font-weight: 900;
@@ -422,6 +430,18 @@ nav {
   color: midnightblue;
 }
 
-.upload-form-cont{
+.upload-form-cont {
   padding: 10% 10% 10% 10%;
+}
+
+.note-cont {
+  background-color: powderblue;
+  color: indigo;
+  padding: 2% 10% 10% 10%;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar-home {
+  background-color: rgba(60, 8, 24, 1);
 }

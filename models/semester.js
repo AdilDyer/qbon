@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Subject = require("./subject");
+const Subject = require("./subject.js");
 
 const semesterSchema = new mongoose.Schema({
   number: {
@@ -8,7 +8,7 @@ const semesterSchema = new mongoose.Schema({
   },
   subjects: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: Subject,
     },
   ],

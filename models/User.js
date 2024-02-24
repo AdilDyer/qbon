@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const School = require("./school");
-const Course = require("./course");
-const Semester = require("./semester");
+const School = require("./school.js");
+const Course = require("./course.js");
+const Semester = require("./semester.js");
 const passportLocalMongoose = require("passport-local-mongoose");
 const userSchema = new mongoose.Schema({
   email: {
@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   school: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: School,
     required: true,
   },
@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   course: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: Course,
     required: true,
   },
   semester: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: Semester,
     required: true,
   },

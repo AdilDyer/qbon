@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Course = require("./course");
+const Course = require("./course.js");
 
 
 
@@ -10,7 +10,7 @@ const schoolSchema = new mongoose.Schema({
   },
   courses: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: Course,
     },
   ],

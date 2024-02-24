@@ -28,6 +28,7 @@ const Refmaterial = require("./models/refmaterial");
 const PasswordResetToken = require("./models/resetpass.js");
 const nodemailer = require("nodemailer");
 const uuid = require("uuid");
+const cloudinary = require("cloudinary");
 const { isValidResetLink } = require("./middleware.js");
 const { ObjectId } = require("mongodb");
 const sessionOptions = {
@@ -93,15 +94,41 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/index", (req, res) => {
-  res.render("index.ejs");
+  let subject = req.query.subject;
+  res.render("index.ejs", { subject: subject });
 });
 
-app.get("/questionyear", (req, res) => {
-  res.render("quesroutes/ques.ejs");
+app.get("/questionyear/:subname", (req, res) => {
+  let { subname } = req.params;
+  res.render("quesroutes/ques.ejs", { subname: subname });
 });
 
-app.get("/quesdata", (req, res) => {
-  res.render("quesroutes/quesdata.ejs");
+app.get("/quesdata/:subname", async (req, res) => {
+  try {
+    // Find the subject by name
+    const subject = await Subject.findOne({ name: req.params.subname });
+
+    // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
+    if (!subject) {
+      return res.status(404).send("Subject not found");
+    }
+
+    // Retrieve the year and subject ID from query parameters
+    const quesyear = req.query.quesyear;
+
+    // Query question papers based on the provided year and subject ID
+    const questionPapers = await Quespaper.find({
+      year: quesyear,
+      subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
+    });
+
+    // Render the response using the retrieved question papers
+    res.render("quesroutes/quesdata.ejs", { questionPapers });
+  } catch (error) {
+    // Handle errors
+    console.error("Error fetching question papers:", error);
+    res.status(500).send("Error fetching question papers");
+  }
 });
 
 app.get("/subject", async (req, res) => {
@@ -119,12 +146,35 @@ app.get("/subject", async (req, res) => {
   });
 });
 
-app.get("/references", (req, res) => {
-  res.render("refs.ejs");
+app.get("/references/:subname", async (req, res) => {
+  let { subname } = req.params;
+
+  try {
+    // Find the subject by name
+    const subject = await Subject.findOne({ name: subname });
+
+    // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
+    if (!subject) {
+      return res.status(404).send("Subject not found");
+    }
+
+    // Query question papers based on the provided year and subject ID
+    const refMaterials = await Refmaterial.find({
+      subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
+    });
+    // questionPapers;
+    // Render the response using the retrieved question papers
+    res.render("refs.ejs", { refMaterials: refMaterials });
+  } catch (error) {
+    // Handle errors
+    console.error("Error fetching question papers:", error);
+    res.status(500).send("Error fetching question papers");
+  }
 });
 
-app.get("/showfile", (req, res) => {
-  res.render("showfile.ejs");
+app.get("/showfile", async (req, res) => {
+  let { link } = req.query;
+  res.render("showfile.ejs", { link: link });
 });
 
 app.get("/upload", isLoggedIn, async (req, res) => {
@@ -148,8 +198,58 @@ app.get("/upload", isLoggedIn, async (req, res) => {
   }
 });
 
-app.post("/upload", upload.single("file"), (req, res) => {
-  res.send("file uploaded sucessfully");
+app.post("/upload", upload.array("files"), async (req, res) => {
+  try {
+    const files = req.files;
+    const userId = req.user._id; // Assuming you have authenticated user and have access to user's ID
+
+    // Save file links to database
+    if (req.body.filetype == "quespaper") {
+      const filePromises = files.map(async (file) => {
+        const questionPaper = new Quespaper({
+          year: new Date().getFullYear(), // Assuming you want to save current year
+          link: file.path, // Cloudinary file path
+          user: userId,
+          subject: req.body.subject,
+          name: req.body.filename,
+        });
+
+        // Upload file to Cloudinary with the desired filename
+        // await cloudinary.uploader.upload(file.path, {
+        //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
+        //   resource_type: "auto",
+        // });
+
+        await questionPaper.save(); //.save() returns a promise
+      });
+      await Promise.all(filePromises);
+    } else {
+      const filePromises = files.map(async (file) => {
+        const referenceMaterial = new Refmaterial({
+          link: file.path, // Cloudinary file path
+          user: userId,
+          subject: req.body.subject,
+          name: req.body.filename,
+        });
+
+        // Upload file to Cloudinary with the desired filename
+        // await cloudinary.uploader.upload(file.path, {
+        //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
+        //   resource_type: "auto",
+        // });
+
+        await referenceMaterial.save(); //.save() returns a promise
+      });
+      await Promise.all(filePromises);
+    }
+
+    req.flash("success", "Your Upload was successfull !");
+    res.redirect("/upload");
+  } catch (error) {
+    console.error("Error uploading files:", error);
+    req.flash("error", "Your Upload was NOT successfull ! Kindly Try Again .");
+    res.status(500).redirect("/upload");
+  }
 });
 
 app.get("/login", (req, res) => {
@@ -166,6 +266,7 @@ app.get("/signout", (req, res) => {
     }
   });
 });
+
 app.get("/account", async (req, res) => {
   let schoolName = (await School.findOne({ _id: req.user.school })).name;
   let courseName = (await Course.findOne({ _id: req.user.course })).name;
@@ -176,12 +277,19 @@ app.get("/account", async (req, res) => {
     (semester) => semester.number
   );
   let semNo = (await Semester.findOne({ _id: req.user.semester })).number;
+
+  let matUploaded = [];
+  let quesUploaded = await Quespaper.find({ user: req.user._id });
+  let refsUploaded = await Refmaterial.find({ user: req.user._id });
+  matUploaded = matUploaded.concat(quesUploaded, refsUploaded);
+
   res.render("account.ejs", {
     userDetails: req.user,
     schoolName: schoolName,
     courseName: courseName,
     semno: semNo,
     semesterNumbers: semesterNumbers,
+    matUploaded: matUploaded,
   });
 });
 
@@ -193,9 +301,6 @@ app.post("/updatesem", async (req, res) => {
   await myCourse.semesters.forEach(async (semId) => {
     let semObj = await Semester.findOne({ _id: semId });
     if (semObj.number == desiredSemNumber) {
-      console.log("milgya");
-      console.log(newSemId);
-      console.log(semObj._id);
       newSemId.push(semObj._id);
     }
   });
@@ -443,6 +548,21 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.get("/signout", function (req, res, next) {
+  if (isAuthenticated) {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  }
+});
+
+app.get("/note", (req, res) => {
+  res.render("note.ejs");
+});
+
 let insert = async () => {
   let qps = [
     {
@@ -525,17 +645,6 @@ let insert = async () => {
 
 // insert();
 
-app.get("/signout", function (req, res, next) {
-  if (isAuthenticated) {
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/");
-    });
-  }
-});
-
 let func = async () => {
   let sems = await Semester.find({
     _id: { $in: ["65cd0b8728a2f5e8e79ae142", "65d4995f143b88279b99ed41"] },
@@ -565,3 +674,14 @@ let func = async () => {
 };
 
 // func();
+
+// delete route
+app.delete("/delete", async (req, res) => {
+  let { matid, matyear } = req.body;
+  if (matyear) {
+    let qp = await Quespaper.findByIdAndDelete(matid);
+  } else {
+    let refmat = await Refmaterial.findByIdAndDelete(matid);
+  }
+  res.redirect("/account");
+});
