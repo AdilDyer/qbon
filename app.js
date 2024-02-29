@@ -69,7 +69,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(session(sessionOptions));
 app.use(flash());
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
