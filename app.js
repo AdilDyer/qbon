@@ -34,8 +34,21 @@ const { ObjectId } = require("mongodb");
 const ExpressError = require("./utils/ExpressError.js");
 const wrapAsync = require("./utils/wrapAsync.js");
 const { wrap } = require("module");
+const MongoStore = require("connect-mongo");
+const dbUrl = process.env.ATLASDB_URL;
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+store.on("error", () => {
+  console.log("ERROR in Mongo Session Store ", err);
+});
 
 const sessionOptions = {
+  store,
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -56,12 +69,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(session(sessionOptions));
 app.use(flash());
 
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  res.locals.currUser = req.user;
-  next();
-});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,6 +77,11 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(isAuthenticated);
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 main()
   .then(() => {
@@ -78,7 +90,7 @@ main()
   .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/qbon");
+  await mongoose.connect(dbUrl);
 }
 
 app.listen(8080, () => {
@@ -750,4 +762,3 @@ app.use((err, req, res, next) => {
   let { statusCode = 500, message = "something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { err });
 });
-
