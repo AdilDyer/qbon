@@ -1,22 +1,19 @@
 <%layout("/layouts/boilerplate.ejs")%>
-    <link rel="stylesheet" href="/style.css" />
+<link rel="stylesheet" href="/style.css" />
 
 <div class="body-index body-ques">
   <%for(qp of questionPapers){%>
-  <div class="card content-card" style="width: 18rem">
-    <img
-      src="<%=qp.link%>"
-      class="card-img-top"
-      alt="..."
-    />
+  <div class="card content-card pop-out" style="width: 18rem">
+    <img src="<%=qp.link%>" class="card-img-top" alt="..." />
     <div class="card-body">
       <p class="card-text"><%=qp.name%></p>
-      <h6 style="display: none;" id="link"><%=qp.link%></h6>
+      <h6 style="display: none" id="link"><%=qp.link%></h6>
     </div>
   </div>
   <%}%>
   <div>
-    <h5>CR ko bolo Or Dale</h5><br>
+    <h5>CR ko bolo Or Dale</h5>
+    <br />
     <a class="btn btn-lg btn-primary" href="/currcr">Click Here</a>
   </div>
 </div>

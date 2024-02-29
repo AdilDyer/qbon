@@ -31,6 +31,10 @@ const uuid = require("uuid");
 const cloudinary = require("cloudinary");
 const { isValidResetLink } = require("./middleware.js");
 const { ObjectId } = require("mongodb");
+const ExpressError = require("./utils/ExpressError.js");
+const wrapAsync = require("./utils/wrapAsync.js");
+const { wrap } = require("module");
+
 const sessionOptions = {
   secret: process.env.SECRET,
   resave: false,
@@ -81,17 +85,20 @@ app.listen(8080, () => {
   console.log("server is listening to port 8080");
 });
 
-app.get("/", async (req, res) => {
-  let schools = await School.find({});
-  let courses = await Course.find({});
-  let semesters = await Semester.find({});
+app.get(
+  "/",
+  wrapAsync(async (req, res) => {
+    let schools = await School.find({});
+    let courses = await Course.find({});
+    let semesters = await Semester.find({});
 
-  res.render("home.ejs", {
-    schools: schools,
-    courses: courses,
-    semesters: semesters,
-  });
-});
+    res.render("home.ejs", {
+      schools: schools,
+      courses: courses,
+      semesters: semesters,
+    });
+  })
+);
 
 app.get("/index", (req, res) => {
   let subject = req.query.subject;
@@ -103,154 +110,178 @@ app.get("/questionyear/:subname", (req, res) => {
   res.render("quesroutes/ques.ejs", { subname: subname });
 });
 
-app.get("/quesdata/:subname", async (req, res) => {
-  try {
-    // Find the subject by name
-    const subject = await Subject.findOne({ name: req.params.subname });
+app.get(
+  "/quesdata/:subname",
+  wrapAsync(async (req, res) => {
+    try {
+      // Find the subject by name
+      const subject = await Subject.findOne({ name: req.params.subname });
 
-    // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
-    if (!subject) {
-      return res.status(404).send("Subject not found");
-    }
+      // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
+      if (!subject) {
+        return res.status(404).send("Subject not found");
+      }
 
-    // Retrieve the year and subject ID from query parameters
-    const quesyear = req.query.quesyear;
+      // Retrieve the year and subject ID from query parameters
+      const quesyear = req.query.quesyear;
 
-    // Query question papers based on the provided year and subject ID
-    const questionPapers = await Quespaper.find({
-      year: quesyear,
-      subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
-    });
-
-    // Render the response using the retrieved question papers
-    res.render("quesroutes/quesdata.ejs", { questionPapers });
-  } catch (error) {
-    // Handle errors
-    console.error("Error fetching question papers:", error);
-    res.status(500).send("Error fetching question papers");
-  }
-});
-
-app.get("/subject", async (req, res) => {
-  let selections = req.query;
-  let school = (await School.find({ name: selections.school })) || "";
-  let course = (await Course.find({ name: selections.course })) || "";
-  let sem = (await Semester.find({ number: selections.semester })) || "";
-  let subjects = (await Subject.find({ _id: { $in: sem[0].subjects } })) || "";
-
-  res.render("subject.ejs", {
-    subjects: subjects,
-    semester: sem,
-    course: course,
-    school: school,
-  });
-});
-
-app.get("/references/:subname", async (req, res) => {
-  let { subname } = req.params;
-
-  try {
-    // Find the subject by name
-    const subject = await Subject.findOne({ name: subname });
-
-    // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
-    if (!subject) {
-      return res.status(404).send("Subject not found");
-    }
-
-    // Query question papers based on the provided year and subject ID
-    const refMaterials = await Refmaterial.find({
-      subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
-    });
-    // questionPapers;
-    // Render the response using the retrieved question papers
-    res.render("refs.ejs", { refMaterials: refMaterials });
-  } catch (error) {
-    // Handle errors
-    console.error("Error fetching question papers:", error);
-    res.status(500).send("Error fetching question papers");
-  }
-});
-
-app.get("/showfile", async (req, res) => {
-  let { link } = req.query;
-  res.render("showfile.ejs", { link: link });
-});
-
-app.get("/upload", isLoggedIn, async (req, res) => {
-  try {
-    let user = req.user;
-    let sem = await Semester.findOne({ _id: user.semester });
-    let subIds = sem.subjects;
-
-    // Use map with Promise.all to fetch subjects asynchronously
-    let subs = await Promise.all(
-      subIds.map(async (idno) => {
-        let sub = await Subject.findOne({ _id: idno });
-        return sub;
-      })
-    );
-
-    res.render("upload.ejs", { subs: subs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-app.post("/upload", upload.array("files"), async (req, res) => {
-  try {
-    const files = req.files;
-    const userId = req.user._id; // Assuming you have authenticated user and have access to user's ID
-
-    // Save file links to database
-    if (req.body.filetype == "quespaper") {
-      const filePromises = files.map(async (file) => {
-        const questionPaper = new Quespaper({
-          year: new Date().getFullYear(), // Assuming you want to save current year
-          link: file.path, // Cloudinary file path
-          user: userId,
-          subject: req.body.subject,
-          name: req.body.filename,
-        });
-
-        // Upload file to Cloudinary with the desired filename
-        // await cloudinary.uploader.upload(file.path, {
-        //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
-        //   resource_type: "auto",
-        // });
-
-        await questionPaper.save(); //.save() returns a promise
+      // Query question papers based on the provided year and subject ID
+      const questionPapers = await Quespaper.find({
+        year: quesyear,
+        subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
       });
-      await Promise.all(filePromises);
-    } else {
-      const filePromises = files.map(async (file) => {
-        const referenceMaterial = new Refmaterial({
-          link: file.path, // Cloudinary file path
-          user: userId,
-          subject: req.body.subject,
-          name: req.body.filename,
-        });
 
-        // Upload file to Cloudinary with the desired filename
-        // await cloudinary.uploader.upload(file.path, {
-        //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
-        //   resource_type: "auto",
-        // });
-
-        await referenceMaterial.save(); //.save() returns a promise
-      });
-      await Promise.all(filePromises);
+      // Render the response using the retrieved question papers
+      res.render("quesroutes/quesdata.ejs", { questionPapers });
+    } catch (error) {
+      // Handle errors
+      console.error("Error fetching question papers:", error);
+      res.status(500).send("Error fetching question papers");
     }
+  })
+);
 
-    req.flash("success", "Your Upload was successfull !");
-    res.redirect("/upload");
-  } catch (error) {
-    console.error("Error uploading files:", error);
-    req.flash("error", "Your Upload was NOT successfull ! Kindly Try Again .");
-    res.status(500).redirect("/upload");
-  }
-});
+app.get(
+  "/subject",
+  wrapAsync(async (req, res) => {
+    let selections = req.query;
+    let school = (await School.find({ name: selections.school })) || "";
+    let course = (await Course.find({ name: selections.course })) || "";
+    let sem = (await Semester.find({ number: selections.semester })) || "";
+    let subjects =
+      (await Subject.find({ _id: { $in: sem[0].subjects } })) || "";
+
+    res.render("subject.ejs", {
+      subjects: subjects,
+      semester: sem,
+      course: course,
+      school: school,
+    });
+  })
+);
+
+app.get(
+  "/references/:subname",
+  wrapAsync(async (req, res) => {
+    let { subname } = req.params;
+
+    try {
+      // Find the subject by name
+      const subject = await Subject.findOne({ name: subname });
+
+      // If subject doesn't exist, handle the case appropriately (e.g., return an error message)
+      if (!subject) {
+        return res.status(404).send("Subject not found");
+      }
+
+      // Query question papers based on the provided year and subject ID
+      const refMaterials = await Refmaterial.find({
+        subject: subject._id, // Assuming 'subject' field in QuestionPaper model holds subject ID
+      });
+      // questionPapers;
+      // Render the response using the retrieved question papers
+      res.render("refs.ejs", { refMaterials: refMaterials });
+    } catch (error) {
+      // Handle errors
+      console.error("Error fetching question papers:", error);
+      res.status(500).send("Error fetching question papers");
+    }
+  })
+);
+
+app.get(
+  "/showfile",
+  wrapAsync(async (req, res) => {
+    let { link } = req.query;
+    res.render("showfile.ejs", { link: link });
+  })
+);
+
+app.get(
+  "/upload",
+  isLoggedIn,
+  wrapAsync(async (req, res) => {
+    try {
+      let user = req.user;
+      let sem = await Semester.findOne({ _id: user.semester });
+      let subIds = sem.subjects;
+
+      // Use map with Promise.all to fetch subjects asynchronously
+      let subs = await Promise.all(
+        subIds.map(async (idno) => {
+          let sub = await Subject.findOne({ _id: idno });
+          return sub;
+        })
+      );
+
+      res.render("upload.ejs", { subs: subs });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+);
+
+app.post(
+  "/upload",
+  upload.array("files"),
+  wrapAsync(async (req, res) => {
+    try {
+      const files = req.files;
+      const userId = req.user._id; // Assuming you have authenticated user and have access to user's ID
+
+      // Save file links to database
+      if (req.body.filetype == "quespaper") {
+        const filePromises = files.map(async (file) => {
+          const questionPaper = new Quespaper({
+            year: new Date().getFullYear(), // Assuming you want to save current year
+            link: file.path, // Cloudinary file path
+            user: userId,
+            subject: req.body.subject,
+            name: req.body.filename,
+          });
+
+          // Upload file to Cloudinary with the desired filename
+          // await cloudinary.uploader.upload(file.path, {
+          //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
+          //   resource_type: "auto",
+          // });
+
+          await questionPaper.save(); //.save() returns a promise
+        });
+        await Promise.all(filePromises);
+      } else {
+        const filePromises = files.map(async (file) => {
+          const referenceMaterial = new Refmaterial({
+            link: file.path, // Cloudinary file path
+            user: userId,
+            subject: req.body.subject,
+            name: req.body.filename,
+          });
+
+          // Upload file to Cloudinary with the desired filename
+          // await cloudinary.uploader.upload(file.path, {
+          //   public_id: req.body.filename, // Set public ID (filename) to match name field in Quespaper model
+          //   resource_type: "auto",
+          // });
+
+          await referenceMaterial.save(); //.save() returns a promise
+        });
+        await Promise.all(filePromises);
+      }
+
+      req.flash("success", "Your Upload was successfull !");
+      res.redirect("/upload");
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      req.flash(
+        "error",
+        "Your Upload was NOT successfull ! Kindly Try Again ."
+      );
+      res.status(500).redirect("/upload");
+    }
+  })
+);
 
 app.get("/login", (req, res) => {
   res.render("login.ejs");
@@ -267,84 +298,93 @@ app.get("/signout", (req, res) => {
   });
 });
 
-app.get("/account", async (req, res) => {
-  let schoolName = (await School.findOne({ _id: req.user.school })).name;
-  let courseName = (await Course.findOne({ _id: req.user.course })).name;
-  let courseData = await Course.findOne({ _id: req.user.course }).populate(
-    "semesters"
-  );
-  const semesterNumbers = courseData.semesters.map(
-    (semester) => semester.number
-  );
-  let semNo = (await Semester.findOne({ _id: req.user.semester })).number;
+app.get(
+  "/account",
+  wrapAsync(async (req, res) => {
+    let schoolName = (await School.findOne({ _id: req.user.school })).name;
+    let courseName = (await Course.findOne({ _id: req.user.course })).name;
+    let courseData = await Course.findOne({ _id: req.user.course }).populate(
+      "semesters"
+    );
+    const semesterNumbers = courseData.semesters.map(
+      (semester) => semester.number
+    );
+    let semNo = (await Semester.findOne({ _id: req.user.semester })).number;
 
-  let matUploaded = [];
-  let quesUploaded = await Quespaper.find({ user: req.user._id });
-  let refsUploaded = await Refmaterial.find({ user: req.user._id });
-  matUploaded = matUploaded.concat(quesUploaded, refsUploaded);
+    let matUploaded = [];
+    let quesUploaded = await Quespaper.find({ user: req.user._id });
+    let refsUploaded = await Refmaterial.find({ user: req.user._id });
+    matUploaded = matUploaded.concat(quesUploaded, refsUploaded);
 
-  res.render("account.ejs", {
-    userDetails: req.user,
-    schoolName: schoolName,
-    courseName: courseName,
-    semno: semNo,
-    semesterNumbers: semesterNumbers,
-    matUploaded: matUploaded,
-  });
-});
+    res.render("account.ejs", {
+      userDetails: req.user,
+      schoolName: schoolName,
+      courseName: courseName,
+      semno: semNo,
+      semesterNumbers: semesterNumbers,
+      matUploaded: matUploaded,
+    });
+  })
+);
 
-app.post("/updatesem", async (req, res) => {
-  let myCourse = await Course.findOne({ _id: req.user.course });
+app.post(
+  "/updatesem",
+  wrapAsync(async (req, res) => {
+    let myCourse = await Course.findOne({ _id: req.user.course });
 
-  const desiredSemNumber = req.body.newsem;
-  let newSemId = [];
-  await myCourse.semesters.forEach(async (semId) => {
-    let semObj = await Semester.findOne({ _id: semId });
-    if (semObj.number == desiredSemNumber) {
-      newSemId.push(semObj._id);
-    }
-  });
+    const desiredSemNumber = req.body.newsem;
+    let newSemId = [];
+    await myCourse.semesters.forEach(async (semId) => {
+      let semObj = await Semester.findOne({ _id: semId });
+      if (semObj.number == desiredSemNumber) {
+        newSemId.push(semObj._id);
+      }
+    });
 
-  let user = await User.findOne({ username: req.user.username });
-  user.semester = newSemId[0];
-  let result = await user.save();
-  res.redirect("/account");
-});
+    let user = await User.findOne({ username: req.user.username });
+    user.semester = newSemId[0];
+    let result = await user.save();
+    res.redirect("/account");
+  })
+);
 
 app.get("/resetpass/:token", isValidResetLink, (req, res) => {
   res.render("resetpass.ejs");
 });
-app.post("/resetpass", async (req, res) => {
-  try {
-    const user1 = await User.findOne({ username: req.body.username });
+app.post(
+  "/resetpass",
+  wrapAsync(async (req, res) => {
+    try {
+      const user1 = await User.findOne({ username: req.body.username });
 
-    if (!user1) {
-      return res.status(404).send("User not found");
-    }
-
-    await User.findByUsername(req.body.username, async (err, user) => {
-      if (err) {
-        res.send(err);
-      } else {
-        user.setPassword(req.body.password, async function (err) {
-          if (err) {
-            res.send(err);
-          } else {
-            await user.save();
-            console.log("password changed successfully.");
-            await PasswordResetToken.deleteMany({
-              email: user1.email,
-            });
-            res.redirect("/");
-          }
-        });
+      if (!user1) {
+        return res.status(404).send("User not found");
       }
-    });
-  } catch (error) {
-    console.error("Error finding user:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+
+      await User.findByUsername(req.body.username, async (err, user) => {
+        if (err) {
+          res.send(err);
+        } else {
+          user.setPassword(req.body.password, async function (err) {
+            if (err) {
+              res.send(err);
+            } else {
+              await user.save();
+              console.log("password changed successfully.");
+              await PasswordResetToken.deleteMany({
+                email: user1.email,
+              });
+              res.redirect("/");
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Error finding user:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+);
 
 app.get("/forgetpass", (req, res) => {
   let email = " ";
@@ -369,7 +409,7 @@ function generateExpiryTime() {
   return expiryTime;
 }
 // Function to store the generated token and expiry time in the database
-async function storeToken(email, token, expiryTime) {
+wrapAsync(async function storeToken(email, token, expiryTime) {
   try {
     // Create a new document using the PasswordResetToken model
     const resetToken = new PasswordResetToken({
@@ -384,7 +424,8 @@ async function storeToken(email, token, expiryTime) {
   } catch (error) {
     console.error("Error storing token:", error);
   }
-}
+});
+
 function sendResetEmail(email, loginChecker) {
   // Craft the email content with the reset link
   const token = uuid.v4();
@@ -453,100 +494,112 @@ app.post(
     failureRedirect: "/login",
     failureFlash: true,
   }),
-  async (req, res) => {
+  wrapAsync(async (req, res) => {
     req.flash("success", "Welcome back to the qbon !");
     res.redirect("/upload");
-  }
+  })
 );
 
-app.get("/register", async (req, res) => {
-  let schools = await School.find({});
+app.get(
+  "/register",
+  wrapAsync(async (req, res) => {
+    let schools = await School.find({});
 
-  res.render("register.ejs", { schools });
-});
+    res.render("register.ejs", { schools });
+  })
+);
 
-app.get("/getcourses", async (req, res) => {
-  const { school } = req.query;
-  try {
-    const schoolData = await School.findOne({ name: school });
-    let courses = [];
-    let allcourses = await Course.find({});
-    for (courseId of schoolData.courses) {
-      for (c of allcourses) {
-        if (courseId.equals(c._id)) {
-          courses.push(c.name);
-        }
-      }
-    }
-    res.send(courses);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-app.get("/getsemesters", async (req, res) => {
-  const { course } = req.query;
-  try {
-    const courseData = await Course.findOne({ name: course });
-    //     {
-    //   _id: new ObjectId('65cc91451e71feebdf65e0c5'),
-    //   name: 'B.tech',
-    //   semesters: [ new ObjectId('65cc91451e71feebdf65e0c3') ],
-    //   __v: 0
-    // }
-    if (courseData) {
-      let semesters = [];
-      let allsems = await Semester.find({});
-      for (semId of courseData.semesters) {
-        for (s of allsems) {
-          if (semId.equals(s._id)) {
-            semesters.push(s.number);
+app.get(
+  "/getcourses",
+  wrapAsync(async (req, res) => {
+    const { school } = req.query;
+    try {
+      const schoolData = await School.findOne({ name: school });
+      let courses = [];
+      let allcourses = await Course.find({});
+      for (courseId of schoolData.courses) {
+        for (c of allcourses) {
+          if (courseId.equals(c._id)) {
+            courses.push(c.name);
           }
         }
       }
-      res.send(semesters);
+      res.send(courses);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+  })
+);
 
-app.post("/register", async (req, res) => {
-  try {
-    let { username, email, name, school, course, semester, password } =
-      req.body;
-    //finding school id from school name
-    let schoolId = await School.findOne({ name: school });
-    schoolId = schoolId._id;
-    let courseId = await Course.findOne({ name: course });
-    courseId = courseId._id;
-    let semId = await Semester.findOne({ number: semester });
-    semId = semId._id;
-    const newUser = new User({
-      username: username,
-      email: email,
-      name: name,
-      school: schoolId,
-      course: courseId,
-      semester: semId,
-    });
-    const registeredUser = await User.register(newUser, password);
-    console.log(registeredUser);
-    req.login(registeredUser, (err) => {
-      if (err) {
-        return next(err);
-      } else {
-        req.flash("success", "Welcome to the qbon  !");
-        res.redirect("/");
+app.get(
+  "/getsemesters",
+  wrapAsync(async (req, res) => {
+    const { course } = req.query;
+    try {
+      const courseData = await Course.findOne({ name: course });
+      //     {
+      //   _id: new ObjectId('65cc91451e71feebdf65e0c5'),
+      //   name: 'B.tech',
+      //   semesters: [ new ObjectId('65cc91451e71feebdf65e0c3') ],
+      //   __v: 0
+      // }
+      if (courseData) {
+        let semesters = [];
+        let allsems = await Semester.find({});
+        for (semId of courseData.semesters) {
+          for (s of allsems) {
+            if (semId.equals(s._id)) {
+              semesters.push(s.number);
+            }
+          }
+        }
+        res.send(semesters);
       }
-    });
-  } catch (e) {
-    req.flash("error", e.message);
-    res.redirect("/");
-  }
-});
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  })
+);
+
+app.post(
+  "/register",
+  wrapAsync(async (req, res) => {
+    try {
+      let { username, email, name, school, course, semester, password } =
+        req.body;
+      //finding school id from school name
+      let schoolId = await School.findOne({ name: school });
+      schoolId = schoolId._id;
+      let courseId = await Course.findOne({ name: course });
+      courseId = courseId._id;
+      let semId = await Semester.findOne({ number: semester });
+      semId = semId._id;
+      const newUser = new User({
+        username: username,
+        email: email,
+        name: name,
+        school: schoolId,
+        course: courseId,
+        semester: semId,
+      });
+      const registeredUser = await User.register(newUser, password);
+      console.log(registeredUser);
+      req.login(registeredUser, (err) => {
+        if (err) {
+          return next(err);
+        } else {
+          req.flash("success", "Welcome to the qbon  !");
+          res.redirect("/");
+        }
+      });
+    } catch (e) {
+      req.flash("error", e.message);
+      res.redirect("/");
+    }
+  })
+);
 
 app.get("/signout", function (req, res, next) {
   if (isAuthenticated) {
@@ -676,12 +729,25 @@ let func = async () => {
 // func();
 
 // delete route
-app.delete("/delete", async (req, res) => {
-  let { matid, matyear } = req.body;
-  if (matyear) {
-    let qp = await Quespaper.findByIdAndDelete(matid);
-  } else {
-    let refmat = await Refmaterial.findByIdAndDelete(matid);
-  }
-  res.redirect("/account");
+app.delete(
+  "/delete",
+  wrapAsync(async (req, res) => {
+    let { matid, matyear } = req.body;
+    if (matyear) {
+      let qp = await Quespaper.findByIdAndDelete(matid);
+    } else {
+      let refmat = await Refmaterial.findByIdAndDelete(matid);
+    }
+    res.redirect("/account");
+  })
+);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "page not found !"));
 });
+
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "something went wrong" } = err;
+  res.status(statusCode).render("error.ejs", { err });
+});
+
