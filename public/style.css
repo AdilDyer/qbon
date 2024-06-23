@@ -69,7 +69,7 @@ nav {
   align-items: center;
 }
 #profileimg {
-  border-radius: 50%;
+
   width: 3rem;
   margin-right: 1rem;
 }
@@ -494,5 +494,3 @@ nav {
   box-shadow: 0 6px 10px 0 #211c6a, /* Outer shadow */ 0 4px 10px -10px black,
     /* Inner shadow */ inset 0 1px 100px 0px #211c6a; /* Inner highlight */
 }
-
-

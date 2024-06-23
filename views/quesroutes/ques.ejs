@@ -1,4 +1,3 @@
-
 <%layout("/layouts/boilerplate.ejs")%>
 <!-- when stylesheet stops working due to some reason , link it explicitly in that ejs file  -->
 <link rel="stylesheet" href="/style.css" />
@@ -49,7 +48,11 @@
     </div>
     <div class="offcanvas-body">
       <!--  -->
-      <ol class="list-group list-group-numbered" id="years">
+      <ol
+        class="list-group list-group-numbered"
+        id="years"
+        style="cursor: pointer"
+      >
         <li class="list-group-item list-group-item-primary">2024</li>
         <li class="list-group-item list-group-item-primary">2023</li>
       </ol>

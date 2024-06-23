@@ -86,49 +86,54 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
-     <script>
-    // Function to check if an element is in the viewport
-  const isInViewport = (elem) => {
-    const bounding = elem.getBoundingClientRect();
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth)
-    );
-  };
+    <script>
+      // Function to check if an element is in the viewport
+      const isInViewport = (elem) => {
+        const bounding = elem.getBoundingClientRect();
+        return (
+          bounding.top >= 0 &&
+          bounding.left >= 0 &&
+          bounding.bottom <=
+            (window.innerHeight || document.documentElement.clientHeight) &&
+          bounding.right <=
+            (window.innerWidth || document.documentElement.clientWidth)
+        );
+      };
 
-  // Function to handle scrolling
-  const handleScroll = () => {
-    const elements = document.querySelectorAll(".pop-out");
-    elements.forEach((element) => {
-      if (isInViewport(element)) {
-        element.classList.add("pop-out-active");
-      } else {
-        // element.classList.remove('pop-out-active');
+      // Function to handle scrolling
+      const handleScroll = () => {
+        const elements = document.querySelectorAll(".pop-out");
+        elements.forEach((element) => {
+          if (isInViewport(element)) {
+            element.classList.add("pop-out-active");
+          } else {
+            // element.classList.remove('pop-out-active');
+          }
+        });
+      };
+
+      // Event listener for scroll
+      window.addEventListener("scroll", handleScroll);
+
+      // Initial call to handleScroll to check for elements already in viewport
+      // handleScroll();
+
+      // Trigger animation on DOMContentLoaded
+      document.addEventListener("DOMContentLoaded", () => {
+        handleScroll();
+      });
+    </script>
+    <style>
+      .pop-out {
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.5s, transform 0.5s;
       }
-    });
-  };
 
-  // Event listener for scroll
-  window.addEventListener("scroll", handleScroll);
-
-  // Initial call to handleScroll to check for elements already in viewport
-  handleScroll();
-</script>
-<style>
-  .pop-out {
-    opacity: 0;
-    transform: scale(0.5);
-    transition: opacity 0.5s, transform 0.5s;
-  }
-
-  .pop-out.pop-out-active {
-    opacity: 1;
-    transform: scale(1);
-  }
-</style>
+      .pop-out.pop-out-active {
+        opacity: 1;
+        transform: scale(1);
+      }
+    </style>
   </body>
 </html>

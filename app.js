@@ -9,14 +9,15 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const School = require("./models/school");
+const flash = require("connect-flash");
 const session = require("express-session");
 const User = require("./models/user.js");
 const { userSchema } = require("./models/user.js");
-const { isLoggedIn, isAuthenticated } = require("./middleware");
+const { isLoggedIn, isAuthenticated } = require("./middleware.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
-const flash = require("connect-flash");
+
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
 const upload = multer({ storage });
@@ -156,11 +157,16 @@ app.get(
   "/subject",
   wrapAsync(async (req, res) => {
     let selections = req.query;
-    let school = (await School.find({ name: selections.school })) || "";
-    let course = (await Course.find({ name: selections.course })) || "";
-    let sem = (await Semester.find({ number: selections.semester })) || "";
-    let subjects =
-      (await Subject.find({ _id: { $in: sem[0].subjects } })) || "";
+    let school = (await School.findOne({ name: selections.school })) || "";
+    console.log(school);
+    let course = (await Course.findOne({ _id: { $in: school.courses } })) || "";
+    console.log(course);
+    let sem = await Semester.findOne({
+      _id: { $in: course.semesters },
+    });
+    console.log(sem);
+
+    let subjects = (await Subject.find({ _id: { $in: sem.subjects } })) || "";
 
     res.render("subject.ejs", {
       subjects: subjects,
@@ -216,7 +222,6 @@ app.get(
       let user = req.user;
       let sem = await Semester.findOne({ _id: user.semester });
       let subIds = sem.subjects;
-
       // Use map with Promise.all to fetch subjects asynchronously
       let subs = await Promise.all(
         subIds.map(async (idno) => {
@@ -581,12 +586,14 @@ app.post(
       let { username, email, name, school, course, semester, password } =
         req.body;
       //finding school id from school name
-      let schoolId = await School.findOne({ name: school });
-      schoolId = schoolId._id;
-      let courseId = await Course.findOne({ name: course });
-      courseId = courseId._id;
-      let semId = await Semester.findOne({ number: semester });
-      semId = semId._id;
+      let schoolObj = await School.findOne({ name: school });
+      schoolId = schoolObj._id;
+      let courseObj = await Course.findOne({ _id: { $in: schoolObj.courses } });
+      courseId = courseObj._id;
+      let semObj = await Semester.findOne({
+        _id: { $in: courseObj.semesters },
+      });
+      semId = semObj._id;
       const newUser = new User({
         username: username,
         email: email,
@@ -629,61 +636,91 @@ app.get("/note", (req, res) => {
 
 let insert = async () => {
   let qps = [
-    {
-      year: 2222,
-      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
-    },
-    {
-      year: 2931,
-      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
-    },
-    {
-      year: 9999,
-      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
-    },
-    {
-      year: 1212,
-      link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
-    },
+    // {
+    //   year: 2024,
+    //   link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    // },
+    // {
+    //   year: 2931,
+    //   link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    // },
+    // {
+    //   year: 9999,
+    //   link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    // },
+    // {
+    //   year: 1212,
+    //   link: "https://docs.google.com/document/d/1uExDXHsxk0D_fY1sQC7py3t_wyfh804UmklF7U2aSO0/edit",
+    // },
   ];
 
   let res = await Quespaper.insertMany(qps);
 
-  let subs1 = await Subject.insertMany(
+  // let subs1 = await Subject.insertMany(
+  //   {
+  //     name: "Engineering Chemistry",
+  //     questionPapers: res.map((qp) => {
+  //       return qp._id;
+  //     }),
+  //   },
+  //   {
+  //     name: "Engineering",
+  //     questionPapers: res.map((qp) => {
+  //       return qp._id;
+  //     }),
+  //   }
+  // );
+  let subs2 = await Subject.insertMany([
     {
-      name: "Basics Of Law",
+      name: "Engineering Chemistry",
       questionPapers: res.map((qp) => {
         return qp._id;
       }),
     },
     {
-      name: "Human Basic Rights",
-      questionPapers: res.map((qp) => {
-        return qp._id;
-      }),
-    }
-  );
-  let subs2 = await Subject.insertMany(
-    {
-      name: "Democracy and Law",
+      name: "Engineering Mathematics-2",
       questionPapers: res.map((qp) => {
         return qp._id;
       }),
     },
     {
-      name: "Judicial Systems",
+      name: "Professional Ethics",
       questionPapers: res.map((qp) => {
         return qp._id;
       }),
-    }
-  );
+    },
+    {
+      name: "Environmental Sciences",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+    {
+      name: "Digital Logic Design",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+    {
+      name: "Programming with CPP",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+    {
+      name: "Forensic Sciences and Cyber Laws",
+      questionPapers: res.map((qp) => {
+        return qp._id;
+      }),
+    },
+  ]);
   let sem = await Semester.insertMany(
-    {
-      number: "1",
-      subjects: subs1.map((sub) => {
-        return sub._id;
-      }),
-    },
+    // {
+    //   number: "1",
+    //   subjects: subs1.map((sub) => {
+    //     return sub._id;
+    //   }),
+    // },
     {
       number: "2",
       subjects: subs2.map((sub) => {
@@ -693,18 +730,20 @@ let insert = async () => {
   );
 
   let course = await Course.insertMany({
-    name: "LLB",
+    name: "Btech",
     semesters: sem.map((qp) => {
       return qp._id;
     }),
   });
 
   let school = await School.insertMany({
-    name: "School of Law and Social Justice",
+    name: "School of Cybersecurity and Digital Forensics",
     courses: course.map((qp) => {
       return qp._id;
     }),
   });
+
+  console.log("added succsss");
 };
 
 // insert();
