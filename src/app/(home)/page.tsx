@@ -2,11 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Link from "next/link";
+
 const Home = () => {
   const [schools, setSchools] = useState([]);
   const [selectedSchool, setSelectedSchool] = useState("");
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedSemester, setSelectedSemester] = useState("");
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedMaterialType, setSelectedMaterialType] = useState("");
 
   useEffect(() => {
     async function fetchSchools() {
@@ -25,6 +31,43 @@ const Home = () => {
     }
     fetchCourses();
   }, [selectedSchool]);
+
+  useEffect(() => {
+    async function fetchSubjects() {
+      const res = await fetch(
+        "/api/getSubjects?course=" +
+          selectedCourse +
+          "&semester=" +
+          selectedSemester
+      );
+      const data = await res.json();
+      setSubjects(data.subjects);
+    }
+    fetchSubjects();
+  }, [selectedCourse, selectedSemester]);
+
+  const handleSearch = () => {
+    const query = {
+      school: selectedSchool,
+      course: selectedCourse,
+      semester: selectedSemester,
+      subject: selectedSubject,
+      materialType: selectedMaterialType,
+    };
+
+    // Create query string by filtering out empty values
+    const queryString = Object.keys(query)
+      .filter((key) => query[key as keyof typeof query])
+      .map(
+        (key) =>
+          `${key}=${encodeURIComponent(
+            query[key as keyof typeof query] as string
+          )}`
+      )
+      .join("&");
+
+    // Redirect to the results page with the query string
+  };
 
   return (
     <div className="homeDiv">
@@ -49,7 +92,7 @@ const Home = () => {
         <h6>
           With a user-friendly interface, 24/7 access, and a vibrant student
           supported assests, it’s more than just a platform—it’s your academic
-          adventure waiting to unfold! 🚀🔥
+          adventure waiting to <Link href={"/ourmoto"}>unfold</Link>! 🚀🔥
         </h6>
       </div>
       <div className="selectTagsDiv">
@@ -92,6 +135,7 @@ const Home = () => {
             color: "bisque",
             border: "none",
           }}
+          onChange={(e) => setSelectedSemester(e.target.value)}
         >
           <option>Select Your Semester</option>
           <option value="1">1</option>
@@ -112,8 +156,14 @@ const Home = () => {
             color: "bisque",
             border: "none",
           }}
+          onChange={(e) => setSelectedSubject(e.target.value)}
         >
           <option>Select Your Subject</option>
+          {subjects?.map((subject: any, index) => (
+            <option key={index} value={subject.name}>
+              {subject.name}
+            </option>
+          ))}
         </Form.Select>
         <Form.Select
           size="lg"
@@ -122,10 +172,17 @@ const Home = () => {
             color: "bisque",
             border: "none",
           }}
+          onChange={(e) => setSelectedMaterialType(e.target.value)}
         >
           <option>Select Your Material</option>
+          <option value="Question Paper">Question Paper</option>
+          <option value="Study Material">Study Material</option>
         </Form.Select>
-        <Button variant="secondary" className="btn btn-lg">
+        <Button
+          onClick={handleSearch}
+          variant="secondary"
+          className="btn btn-lg"
+        >
           Search
         </Button>
       </div>
