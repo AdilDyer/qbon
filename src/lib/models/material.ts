@@ -19,13 +19,15 @@ const MaterialSchema = new mongoose.Schema(
       required: true,
     },
     subject: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "Subject",
+      type: String,
       required: true,
     },
     uploadedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "User",
+      type: String,
       required: true,
     },
     verified: {

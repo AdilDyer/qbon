@@ -45,6 +45,38 @@
     }
     #navLogin {
       background-color: #ff3c63;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      img {
+        width: 2.5rem;
+        border-radius: 50%;
+      }
+    }
+    #navUploadLink {
+      button {
+        height: 3.9rem;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+    .adminImg {
+      img {
+        width: 4rem;
+        margin-right: 2rem;
+      }
+    }
+  }
+}
+.loginModal {
+  .modal-content {
+    background-color: bisque;
+    border-radius: none !important;
+    .loginUsingGoogleBtn {
+      img {
+        width: 2rem;
+        margin: 0.5rem;
+        border-radius: 50%;
+      }
     }
   }
 }
@@ -174,5 +206,213 @@
   span {
     background-color: rgb(0, 219, 219);
     border-radius: 1rem;
+  }
+}
+
+.notLoggedInUploadDiv {
+  height: 100vh;
+  background-color: rgba(248, 205, 205, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.uploadDiv {
+  .upperPart,
+  .lowerPart {
+    background-color: rgba(248, 205, 205, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    .leftPart {
+      width: 50%;
+      height: 100%;
+    }
+    .rightPart {
+      width: 50%;
+      height: 100%;
+      input {
+        width: 100%;
+        margin: 1rem;
+      }
+      button {
+        margin: 1rem;
+        background-color: #1e2a5e;
+        border: none;
+      }
+    }
+    .selectTagsDiv {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      select {
+        margin: 0.5rem;
+        width: 90%;
+      }
+    }
+  }
+  .lowerPart {
+    .leftPart {
+      color: #290d0d;
+      padding-left: 2.5rem;
+      h6 {
+        text-align: justify;
+        padding-right: 3rem;
+      }
+    }
+    .rightPart {
+      height: 8rem;
+      padding-left: 0rem;
+      button {
+        font-size: 1.5rem;
+        background-color: #ff3c63;
+        border: dashed rgba(248, 205, 205, 255) 2px;
+        border: 1px dashed bisque;
+        transition: all 0.3s;
+      }
+      button:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: rgba(0, 0, 0, 0.226) 2px 2px 1rem;
+        border: solid 2px bisque;
+      }
+    }
+  }
+}
+
+.adminDiv {
+  background-color: teal;
+  color: white;
+  padding: 5rem;
+  .cardsDiv {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    .card {
+      margin: 3rem;
+      box-shadow: rgba(0, 0, 0, 0.226) 0px 0px 1rem;
+      border: none;
+      width: 30rem;
+      border-radius: 1rem;
+      background-color: rgb(255, 255, 255);
+      overflow: hidden;
+      .imgDiv {
+        overflow: hidden;
+        width: 100%;
+        height: 15rem;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .textDiv {
+        height: fit-content;
+        table {
+          margin: 0;
+        }
+      }
+      .buttonsDiv {
+        height: 5rem;
+        background-color: powderblue;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.resultPageDiv {
+  .noDataUploadedDiv {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(248, 205, 205, 255);
+    color: #290d0d;
+    h3 {
+      color: red;
+    }
+    h3,
+    h4 {
+      font-weight: 700;
+    }
+  }
+  .resultsDiv {
+    min-height: 100vh;
+    background-color: rgba(248, 205, 205, 255);
+    color: #290d0d;
+    padding: 3rem;
+    h1 {
+      /* border-bottom: #290d0d solid 6px; */
+      margin: 2rem;
+      span {
+        background-color: #290d0d;
+        color: white;
+        padding: 0.8rem;
+        border-radius: 1rem;
+      }
+    }
+    .cardsDiv {
+      padding: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      .card {
+        width: 20rem;
+        height: 30rem;
+        margin: 2rem;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.226) 0px 0px 1rem;
+        border: none;
+        .imgDiv {
+          width: 100%;
+          height: 40%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .cardTextBody {
+          width: 100%;
+          height: 60%;
+          /* padding: 1rem; */
+          color: #290d0d;
+          overflow: scroll;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          background-color: #9dbdff;
+          .materialName {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #7695ff;
+          }
+          .materialDescription {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #9dbdff;
+          }
+          .materialType {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #ffd7c4;
+          }
+          .buttonDiv {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #ff9874;
+          }
+        }
+      }
+    }
   }
 }

@@ -46,29 +46,6 @@ const Home = () => {
     fetchSubjects();
   }, [selectedCourse, selectedSemester]);
 
-  const handleSearch = () => {
-    const query = {
-      school: selectedSchool,
-      course: selectedCourse,
-      semester: selectedSemester,
-      subject: selectedSubject,
-      materialType: selectedMaterialType,
-    };
-
-    // Create query string by filtering out empty values
-    const queryString = Object.keys(query)
-      .filter((key) => query[key as keyof typeof query])
-      .map(
-        (key) =>
-          `${key}=${encodeURIComponent(
-            query[key as keyof typeof query] as string
-          )}`
-      )
-      .join("&");
-
-    // Redirect to the results page with the query string
-  };
-
   return (
     <div className="homeDiv">
       <div className="imgDiv">
@@ -178,13 +155,24 @@ const Home = () => {
           <option value="Question Paper">Question Paper</option>
           <option value="Study Material">Study Material</option>
         </Form.Select>
-        <Button
-          onClick={handleSearch}
-          variant="secondary"
-          className="btn btn-lg"
+        <Link
+          href={
+            "/results?school=" +
+            selectedSchool +
+            "&course=" +
+            selectedCourse +
+            "&semester=" +
+            selectedSemester +
+            "&subject=" +
+            selectedSubject +
+            "&materialType=" +
+            selectedMaterialType
+          }
         >
-          Search
-        </Button>
+          <Button variant="secondary" className="btn btn-lg">
+            Search
+          </Button>
+        </Link>
       </div>
     </div>
   );
