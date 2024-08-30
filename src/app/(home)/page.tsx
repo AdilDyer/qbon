@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
+import { set } from "mongoose";
+import school from "@/lib/models/school";
 
 const Home = () => {
   const [schools, setSchools] = useState([]);
@@ -23,11 +25,19 @@ const Home = () => {
     fetchSchools();
   }, []);
 
+
+  schools.map((school: any) => {
+    console.log(school.name);
+  });
+
   useEffect(() => {
     async function fetchCourses() {
       const res = await fetch("/api/getCourses?school=" + selectedSchool);
       const data = await res.json();
       setCourses(data.courses);
+      setSelectedSubject("");
+      setSubjects([]);
+      setSelectedCourse("");
     }
     fetchCourses();
   }, [selectedSchool]);

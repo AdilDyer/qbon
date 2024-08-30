@@ -359,7 +359,6 @@
     padding: 2rem;
     h1 {
       width: fit-content;
-
       span {
         background-color: #290d0d;
         color: white;
@@ -542,3 +541,193 @@
     }
   }
 }
+
+/* Portrait mode for mobile devices */
+@media (max-width: 700px) {
+  .navbar {
+    .imgDiv {
+      width: 7rem;
+    }
+    .rightPart {
+      padding-right: 1rem;
+      button {
+        padding: 0.7rem 0.8rem;
+      }
+      .adminImg {
+        img {
+          width: 4rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+  .homeDiv {
+    .imgDiv {
+      img {
+        height: 35vh;
+        width: 90%;
+        object-fit: cover;
+      }
+    }
+    .textDiv {
+      height: 50vh;
+    }
+  }
+  .selectTagsDiv {
+    margin-top: 3rem;
+    select {
+      font-size: 1rem;
+    }
+  }
+  .footer {
+    flex-direction: column;
+    height: fit-content;
+    border: dashed bisque 4px;
+
+    justify-content: center;
+    .textDiv {
+      border: none;
+      width: 100%;
+      padding: 3rem;
+      gap: 1rem;
+      span {
+        line-height: 2rem;
+        padding: 0;
+        border-radius: 0;
+      }
+    }
+    .imgDiv {
+      width: 100%;
+      border: none;
+    }
+  }
+
+  .ourMotoDiv {
+    padding: 1rem;
+  }
+  .notLoggedInUploadDiv {
+    padding: 1rem;
+  }
+
+  .uploadDiv {
+    .upperPart,
+    .lowerPart {
+      flex-direction: column;
+      padding: 1rem;
+      .leftPart {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+      .rightPart {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        input {
+          margin: 0;
+        }
+      }
+    }
+    .lowerPart {
+      .leftPart {
+        padding: 1rem;
+        h6 {
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .adminDiv {
+    padding: 1rem;
+    .cardsDiv {
+      padding: 0;
+      .card {
+        margin: 1rem;
+      }
+    }
+  }
+
+  .resultPageDiv {
+    .noDataUploadedDiv {
+      padding: 2rem;
+    }
+
+    .resultsDiv {
+      padding: 0;
+      .topDiv {
+        padding: 2rem;
+        gap: 2rem;
+        padding-bottom: 0;
+        flex-direction: column;
+      }
+      .cardsDiv {
+        padding: 1rem;
+      }
+    }
+  }
+  .accountDiv {
+    .notLoggedInDiv {
+      padding: 2rem;
+    }
+    .personalInfo {
+      flex-direction: column;
+      height: 25rem;
+    }
+    .yourUploadsDiv {
+      h1 {
+        margin-top: 4rem;
+      }
+      .cardsDiv {
+        padding: 0;
+        .card {
+          margin: 1rem;
+        }
+      }
+    }
+  }
+}
+
+/* Landscape mode for mobile devices */
+/* @media (max-width: 767px) and (orientation: landscape) {
+
+} */
+
+/* Portrait mode for tablets */
+@media (min-width: 701px) and (max-width: 1240px) {
+  .footer {
+    flex-direction: column;
+    height: fit-content;
+    border: dashed bisque 4px;
+    justify-content: center;
+    .textDiv {
+      border: none;
+      width: 100%;
+      padding: 3rem;
+      gap: 1rem;
+      span {
+        line-height: 2rem;
+        padding: 0;
+        border-radius: 0;
+      }
+    }
+    .imgDiv {
+      width: 100%;
+      border: none;
+    }
+  }
+}
+
+/* Landscape mode for tablets */
+/* @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+} */
+
+/* For small desktops and laptops */
+/* @media (min-width: 1025px) and (max-width: 1240px) {
+} */
+
+/* For large desktops */
+/* @media (min-width: 1367px) {
+} */

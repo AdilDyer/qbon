@@ -50,7 +50,7 @@ const Account = () => {
                 <Button
                   variant="outline-warning"
                   onClick={() => {
-                    signOut();
+                    signOut({ callbackUrl: "/" });
                   }}
                 >
                   Logout
