@@ -77,7 +77,7 @@ import Material from "@/lib/models/material";
 
 //     // Find the school by name
 //     let scsdfSchool = await Course.findOne({
-//       name: "B.Tech - M.Tech. Computer Science & Engineering (Cyber Security)",
+//       name: "B.Tech - M.Tech. Computer Science and Engineering (Cyber Security)",
 //     });
 
 //     // Check if the school exists
@@ -88,33 +88,173 @@ import Material from "@/lib/models/material";
 //     // Insert multiple courses associated with the found school
 //     await Subject.insertMany([
 //       {
-//         name: "Java Programming",
-//         semesterNo: 3,
+//         name: "Engineering Physics",
+//         semesterNo: 1,
 //         course: scsdfSchool._id,
 //       },
 //       {
-//         name: "Database Management System",
-//         semesterNo: 3,
+//         name: "Engineering Mathematics - 1",
+//         semesterNo: 1,
 //         course: scsdfSchool._id,
 //       },
 //       {
-//         name: "Data Structures",
-//         semesterNo: 3,
+//         name: "Basics of Electrical Engineering",
+//         semesterNo: 1,
 //         course: scsdfSchool._id,
 //       },
 //       {
-//         name: "Engineering Mathematics-3",
-//         semesterNo: 3,
+//         name: "Fundamentals in Computer Programming with C",
+//         semesterNo: 1,
 //         course: scsdfSchool._id,
 //       },
 //       {
-//         name: "Computer Organization & Architecture",
-//         semesterNo: 3,
+//         name: "Engineering Graphics",
+//         semesterNo: 1,
 //         course: scsdfSchool._id,
 //       },
 //       {
-//         name: "System Analysis Design and Unified Modelling Language",
-//         semesterNo: 3,
+//         name: "Communication Skills",
+//         semesterNo: 1,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Engineering Chemistry",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Engineering Mathematics -2",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Object Oriented Programming with C++",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Digital Logic Design",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Professional Ethics",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Fundamentals of ForensicScienceand Cyber Law",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Environmental Sciences",
+//         semesterNo: 2,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Engineering Mathematics - 4",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Basics of Computer Networks",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Microprocessor and Microcontroller",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Operating System",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Cryptography",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Dot Net Programming",
+//         semesterNo: 4,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Advance Computer Networks",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Web Development Technology",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Computer Programming with Python",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Theory of Computation",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Wireless Communication and Mobile Computing",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Big Data",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Cloud Computing",
+//         semesterNo: 5,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Modern Software Engineering",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Essentials of Cyber Security",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Compiler Design",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Vocational Skills a n d Personality Development",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Advance Java Programming",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Computer Graphics",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Advance Web Development Technology",
+//         semesterNo: 6,
+//         course: scsdfSchool._id,
+//       },
+//       {
+//         name: "Advance Web Development Technology",
+//         semesterNo: 6,
 //         course: scsdfSchool._id,
 //       },
 //     ]);

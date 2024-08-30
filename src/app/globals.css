@@ -86,7 +86,7 @@
   background-color: rgba(248, 205, 205, 255);
   .imgDiv {
     width: 100%;
-    height: 60vh;
+    height: max(60vh, 30rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,9 +98,10 @@
       background-color: #290d0d;
     }
     img {
-      width: auto;
+      max-width: 80%;
+      object-fit: cover;
       z-index: 100;
-      height: 55vh;
+      height: 85%;
       border: dashed #290d0d 4px;
       border-radius: 2rem;
       box-shadow: rgba(139, 0, 0, 0.629) 0px 0px 5rem;
@@ -563,8 +564,9 @@
   }
   .homeDiv {
     .imgDiv {
+      height: 60vh;
       img {
-        height: 35vh;
+        height: 60%;
         width: 90%;
         object-fit: cover;
       }
@@ -697,6 +699,19 @@
 
 /* Portrait mode for tablets */
 @media (min-width: 701px) and (max-width: 1240px) {
+  .homeDiv {
+    /* .imgDiv {
+      height: 70vh;
+      img {
+        height: 60vh;
+        width: 75%;
+        object-fit: cover;
+      }
+    } */
+    .textDiv {
+      height: 50vh;
+    }
+  }
   .footer {
     flex-direction: column;
     height: fit-content;
