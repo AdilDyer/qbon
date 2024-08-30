@@ -74,8 +74,8 @@ const Account = () => {
                   </h3>
                   <br />
                   <p>
-                    Don't worry, it's super easy to get started. Upload your
-                    first material now and share the knowledge!{" "}
+                    Don&apos;t worry, it&apos;s super easy to get started.
+                    Upload your first material now and share the knowledge!{" "}
                     <span role="img" aria-label="rocket emoji">
                       🚀
                     </span>{" "}

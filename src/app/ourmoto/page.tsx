@@ -9,7 +9,7 @@ const OurMoto = () => {
         journey.
       </h5>
       <h5>
-        We're reaching out to you today with a humble request and an
+        We&apos;re reaching out to you today with a humble request and an
         extraordinary opportunity to make a lasting impact on our university
         community.
       </h5>
@@ -17,9 +17,9 @@ const OurMoto = () => {
         <h5>
           Imagine a platform where every student, regardless of their course or
           year of study, can come together to share valuable resources that
-          enhance learning and empower one another. That's the vision we have
-          for our university's educational ecosystem, and we need your help to
-          bring it to life.
+          enhance learning and empower one another. That&apos;s the vision we
+          have for our university&apos;s educational ecosystem, and we need your
+          help to bring it to life.
         </h5>{" "}
         <h5>
           We invite you to join us in a collective effort to build a
@@ -30,19 +30,19 @@ const OurMoto = () => {
         </h5>
       </span>
       <h5>
-        Whether it's that meticulously crafted study guide you created for acing
-        your finals or those past question papers you diligently collected, your
-        contributions have the potential to become invaluable assets for
-        students navigating similar academic challenges.
+        Whether it&apos;s that meticulously crafted study guide you created for
+        acing your finals or those past question papers you diligently
+        collected, your contributions have the potential to become invaluable
+        assets for students navigating similar academic challenges.
       </h5>
       <h5>
         Together, we can create a supportive environment where knowledge knows
         no bounds and success becomes a shared journey.
       </h5>
       <h5>
-        Let's harness the strength of our diverse talents and experiences to
-        uplift one another and pave the way for future generations of students
-        to thrive.
+        Let&apos;s harness the strength of our diverse talents and experiences
+        to uplift one another and pave the way for future generations of
+        students to thrive.
       </h5>
       <h5>
         Thank you for considering this opportunity to contribute to our
