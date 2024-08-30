@@ -35,40 +35,40 @@ import Material from "@/lib/models/material";
 // }
 
 //to create courses
-export async function GET(req: NextRequest) {
-  try {
-    await dbConnect(); // Ensure dbConnect function connects to your MongoDB
+// export async function GET(req: NextRequest) {
+//   try {
+//     await dbConnect(); // Ensure dbConnect function connects to your MongoDB
 
-    // Find the school by name
-    let scsdfSchool = await School.findOne({
-      name: "School of Doctoral Studies & Research",
-    });
+//     // Find the school by name
+//     let scsdfSchool = await School.findOne({
+//       name: "School of Doctoral Studies & Research",
+//     });
 
-    // Check if the school exists
-    if (!scsdfSchool) {
-      throw new Error("School not found");
-    }
+//     // Check if the school exists
+//     if (!scsdfSchool) {
+//       throw new Error("School not found");
+//     }
 
-    // Insert multiple courses associated with the found school
-    await Course.insertMany([
-      {
-        name: "Doctor of Philosophy",
-        school: scsdfSchool._id,
-      },
-      {
-        name: "Doctor of Philosophy (Professional Category)",
-        school: scsdfSchool._id,
-      },
-    ]);
+//     // Insert multiple courses associated with the found school
+//     await Course.insertMany([
+//       {
+//         name: "Doctor of Philosophy",
+//         school: scsdfSchool._id,
+//       },
+//       {
+//         name: "Doctor of Philosophy (Professional Category)",
+//         school: scsdfSchool._id,
+//       },
+//     ]);
 
-    return NextResponse.json({
-      message: "Courses created successfully",
-      status: 200,
-    });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message, status: 400 });
-  }
-}
+//     return NextResponse.json({
+//       message: "Courses created successfully",
+//       status: 200,
+//     });
+//   } catch (error: any) {
+//     return NextResponse.json({ error: error.message, status: 400 });
+//   }
+// }
 
 //to create subjects
 // export async function GET(req: NextRequest) {
