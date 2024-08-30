@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useSession } from "next-auth/react";
-
+import Form from "react-bootstrap/Form";
 const AdminPage = () => {
   const [allMaterials, setAllMaterials] = useState([]);
+  const [materialToBeDeleted, setMaterialToBeDeleted] = useState("");
   const { data: session, status } = useSession();
   async function fetchAllMaterials() {
     try {
@@ -76,57 +77,6 @@ const AdminPage = () => {
       <h1>Welcome Dear Admin ! </h1>
       <h3>Nail It Over!</h3>
       <div className="cardsDiv">
-        {/* <div className="card">
-          <div className="imgDiv">
-            <img src="https://picsum.photos/600/300" alt="" />
-          </div>
-          <div className="textDiv">
-            <Table striped="columns" variant="dark">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <td>Otto alskdf alkdfj</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>Description</th>
-                  <td>
-                    Otto Lorem ipsum dolor sit amet consectetur adipisicing
-                    elit. Cum nihil ullam assumenda veritatis nisi, laudantium
-                    voluptates iste quibusdam voluptas! Aliquam commodi quaerat
-                    aspernatur nostrum suscipit aliquid deserunt vero eius est!
-                  </td>
-                </tr>
-                <tr>
-                  <th>Material Type</th>
-
-                  <td>Thornton</td>
-                </tr>
-                <tr>
-                  <th>Subject</th>
-
-                  <td>@twitter</td>
-                </tr>
-                <tr>
-                  <th>Uploaded By</th>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>
-          <div className="buttonsDiv">
-            <Button variant="primary" className="btn btn-lg">
-              Show File
-            </Button>
-            <Button className="btn btn-lg" variant="success">
-              Accept
-            </Button>
-            <Button className="btn btn-lg" variant="danger">
-              Reject
-            </Button>
-          </div>
-        </div> */}
         {allMaterials.length > 0 ? (
           allMaterials.map((material: any) => (
             <div className="card" key={material._id}>
@@ -192,6 +142,23 @@ const AdminPage = () => {
         ) : (
           <p>No materials available</p>
         )}
+      </div>
+      <div className="deleteBtnDiv">
+        <Form.Control
+          size="lg"
+          type="text"
+          placeholder="Enter the Material Id to be deleted here"
+          onChange={(e) => setMaterialToBeDeleted(e.target.value)}
+        />
+        <Button
+          onClick={() => {
+            handleRejectClick(materialToBeDeleted);
+          }}
+          variant="danger"
+          className="btn btn-lg"
+        >
+          Delete this Material
+        </Button>
       </div>
     </div>
   );

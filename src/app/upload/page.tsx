@@ -20,6 +20,7 @@ const UploadPage = () => {
   const [materialName, setMaterialName] = useState("");
   const [materialDescription, setMaterialDescription] = useState("");
   const [materialFileLink, setMaterialFileLink] = useState("");
+  const [materialPublicId, setMaterialPublicId] = useState("");
   const [isAgreed, setIsAgreed] = useState(false);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [showModalTwo, setShowModalTwo] = useState(false);
@@ -78,7 +79,8 @@ const UploadPage = () => {
       !selectedMaterialType ||
       !materialName ||
       !materialDescription ||
-      !materialFileLink
+      !materialFileLink ||
+      !materialPublicId
     ) {
       handleShowModalThree();
       return;
@@ -91,6 +93,7 @@ const UploadPage = () => {
       name: materialName,
       description: materialDescription,
       link: materialFileLink,
+      cloudinaryPublicId: materialPublicId,
     };
 
     try {
@@ -237,6 +240,7 @@ const UploadPage = () => {
                   signatureEndpoint="/api/sign-image"
                   onSuccess={(result: any, { widget }) => {
                     setMaterialFileLink(result?.info?.secure_url);
+                    setMaterialPublicId(result?.info?.public_id);
                     setIsImageUploaded(true);
                   }}
                   onQueuesEnd={(result, { widget }) => {

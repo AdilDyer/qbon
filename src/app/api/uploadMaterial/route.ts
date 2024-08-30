@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
     await dbConnect();
     const body = await req.json();
 
-    console.log(body);
     let material = new Material({
       name: body.name,
       description: body.description,
@@ -14,6 +13,7 @@ export async function POST(req: NextRequest) {
       type: body.type,
       subject: body.subject,
       uploadedBy: body.uploadedBy,
+      cloudinaryPublicId: body.cloudinaryPublicId,
       verified: false,
     });
 

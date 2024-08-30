@@ -3,7 +3,7 @@ import School from "@/lib/models/school";
 import Course from "@/lib/models/course";
 import Subject from "@/lib/models/subject";
 import { NextResponse, NextRequest } from "next/server";
-
+import Material from "@/lib/models/material";
 //to create schools
 // export async function GET(req: NextRequest) {
 //   try {
@@ -134,6 +134,22 @@ import { NextResponse, NextRequest } from "next/server";
 
 //     return NextResponse.json({
 //       message: "Subjects created successfully",
+//       status: 200,
+//     });
+//   } catch (error: any) {
+//     return NextResponse.json({ error: error.message, status: 400 });
+//   }
+// }
+
+//to delete all materials
+// export async function GET(req: NextRequest) {
+//   try {
+//     await dbConnect();
+
+//     await Material.deleteMany({});
+
+//     return NextResponse.json({
+//       message: "all materials deleted successfully",
 //       status: 200,
 //     });
 //   } catch (error: any) {

@@ -34,6 +34,10 @@ const MaterialSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    cloudinaryPublicId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

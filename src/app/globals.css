@@ -323,6 +323,15 @@
       }
     }
   }
+  .deleteBtnDiv {
+    width: 100%;
+    height: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
 
 .resultPageDiv {
@@ -342,19 +351,136 @@
       font-weight: 700;
     }
   }
-  .resultsDiv {
-    min-height: 100vh;
-    background-color: rgba(248, 205, 205, 255);
-    color: #290d0d;
-    padding: 3rem;
+  /* topDiv is present in both noDataUploadedDiv and resultsDiv */
+  .topDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
     h1 {
-      /* border-bottom: #290d0d solid 6px; */
-      margin: 2rem;
+      width: fit-content;
+
       span {
         background-color: #290d0d;
         color: white;
         padding: 0.8rem;
         border-radius: 1rem;
+      }
+    }
+  }
+  .resultsDiv {
+    min-height: 100vh;
+    background-color: rgba(248, 205, 205, 255);
+    color: #290d0d;
+    padding: 3rem;
+    .cardsDiv {
+      padding: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      .card {
+        width: 20rem;
+        height: 30rem;
+        margin: 2rem;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.226) 0px 0px 1rem;
+        border: none;
+        .imgDiv {
+          width: 100%;
+          height: 40%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .cardTextBody {
+          width: 100%;
+          height: 60%;
+          /* padding: 1rem; */
+          color: #290d0d;
+          overflow: scroll;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          background-color: #9dbdff;
+          .materialName {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #7695ff;
+          }
+          .materialDescription {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #9dbdff;
+          }
+          .materialType {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #ffd7c4;
+          }
+          .buttonDiv {
+            padding: 0.8rem;
+            margin: 0;
+            background-color: #ff9874;
+          }
+        }
+      }
+    }
+  }
+}
+
+.accountDiv {
+  min-height: 100vh;
+  background-color: rgba(248, 205, 205, 255);
+  .notLoggedInDiv {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: midnightblue;
+  }
+  .personalInfo {
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #ff7691, #ff8a8a);
+    gap: 2rem;
+    .imgDiv {
+      width: 10rem;
+      height: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .textDiv {
+      h1,
+      h3 {
+        font-weight: 700;
+        color: #1e2a5e;
+      }
+    }
+  }
+  .yourUploadsDiv {
+    padding: 3rem;
+    h1 {
+      color: #ff3c63;
+      margin-bottom: 4rem;
+    }
+    .noUploadsDiv {
+      h3,
+      p {
+        font-weight: 700;
       }
     }
     .cardsDiv {
