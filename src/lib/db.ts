@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const connect = async () => {
   const connectionState = mongoose.connection.readyState;
   if (connectionState === 1) {
-    console.log("Already Connected to MongoDB");
+    // console.log("Already Connected to MongoDB");
     return;
   }
   if (connectionState === 2) {
@@ -13,7 +13,7 @@ const connect = async () => {
   try {
     mongoose.connect(dbUrl!, {
       dbName: "QbonNew",
-      bufferCommands: false,
+      bufferCommands: true,
     });
     console.log("Connected to MongoDB");
   } catch (err) {

@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
-import { set } from "mongoose";
-import school from "@/lib/models/school";
 
 const Home = () => {
   const [schools, setSchools] = useState([]);
