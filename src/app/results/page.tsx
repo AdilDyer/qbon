@@ -13,6 +13,7 @@ const ResultsPageContent = () => {
   const [materialType, setMaterialType] = useState(
     searchParams.get("materialType") || "Study Material"
   );
+  const [isInitialLoad, setIsInitialLoad] = useState(false);
 
   const [allMaterials, setAllMaterials] = useState([]);
 
@@ -36,6 +37,7 @@ const ResultsPageContent = () => {
       if (res.ok) {
         const data = await res.json();
         setAllMaterials(data.requiredMaterials);
+        setIsInitialLoad(true);
       } else {
         console.log("Failed to fetch materials");
       }
@@ -56,7 +58,7 @@ const ResultsPageContent = () => {
   };
   return (
     <div className="resultPageDiv">
-      {allMaterials.length === 0 ? (
+      {allMaterials.length == 0 && isInitialLoad ? (
         <>
           <div className="noDataUploadedDiv">
             <div className="topDiv">
@@ -97,9 +99,15 @@ const ResultsPageContent = () => {
             <div className="topDiv">
               <h1>
                 <span>
-                  {allMaterials.length}
-                  {allMaterials.length === 1 ? " result " : " results "}
-                  found :
+                  {allMaterials.length == 0 ? (
+                    "Please wait..."
+                  ) : (
+                    <>
+                      {allMaterials.length}{" "}
+                      {allMaterials.length === 1 ? " result " : " results "}
+                      found :{" "}
+                    </>
+                  )}
                 </span>
               </h1>
               <Dropdown>
