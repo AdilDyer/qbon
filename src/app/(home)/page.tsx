@@ -26,9 +26,7 @@ const Home = () => {
   }, []);
 
 
-  schools.map((school: any) => {
-    console.log(school.name);
-  });
+
 
   useEffect(() => {
     async function fetchCourses() {

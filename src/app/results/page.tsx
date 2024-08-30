@@ -1,10 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const ResultsPage = () => {
+const ResultsPageContent = () => {
   const searchParams = useSearchParams();
   const school = searchParams.get("school") || "";
   const course = searchParams.get("course") || "";
@@ -164,6 +164,14 @@ const ResultsPage = () => {
         </>
       )}
     </div>
+  );
+};
+
+const ResultsPage = () => {
+  return (
+    <Suspense>
+      <ResultsPageContent />
+    </Suspense>
   );
 };
 
