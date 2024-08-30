@@ -25,9 +25,6 @@ const Home = () => {
     fetchSchools();
   }, []);
 
-
-
-
   useEffect(() => {
     async function fetchCourses() {
       const res = await fetch("/api/getCourses?school=" + selectedSchool);
@@ -91,7 +88,7 @@ const Home = () => {
           onChange={(e) => setSelectedSchool(e.target.value)}
         >
           <option>Select Your School</option>
-          {schools.map((school: any, index) => (
+          {schools?.map((school: any, index) => (
             <option key={index} value={school.name}>
               {school.name}
             </option>
