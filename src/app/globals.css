@@ -262,6 +262,9 @@
         text-align: justify;
         padding-right: 3rem;
       }
+      .form-check {
+        max-width: 6rem;
+      }
     }
     .rightPart {
       height: 8rem;
