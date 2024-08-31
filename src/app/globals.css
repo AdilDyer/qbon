@@ -263,9 +263,14 @@
         padding-right: 3rem;
       }
       .form-check {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
         input {
           max-width: 1rem;
-          margin: 0 !important;
+          margin: 0rem;
+          margin-right: 0.5rem;
         }
       }
     }
