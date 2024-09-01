@@ -243,6 +243,9 @@ const UploadPage = () => {
                     setMaterialPublicId(result?.info?.public_id);
                     setIsImageUploaded(true);
                   }}
+                  onError={(error, { widget }) => {
+                    alert("Failed to upload : File Size is larger than 10MB !");
+                  }}
                   onQueuesEnd={(result, { widget }) => {
                     widget.close();
                   }}
