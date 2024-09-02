@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 const connect = async () => {
   const connectionState = mongoose.connection.readyState;
   if (connectionState === 1) {
-    // console.log("Already Connected to MongoDB");
+    // Already connected
     return;
   }
   if (connectionState === 2) {
-    console.log("Connecting..");
+    console.log("Connecting to MongoDB..");
     return;
   }
   try {
-    mongoose.connect(dbUrl!, {
+    await mongoose.connect(dbUrl!, {
       dbName: "QbonNew",
       bufferCommands: true,
     });
