@@ -60,7 +60,7 @@ const Home = () => {
       </div>
       <div className="textDiv">
         <h4>
-          QBON, “The Question Bank of NFSU” is your go-to platform for all
+          QBbON, “The Question Bank of NFSU” is your go-to platform for all
           things academic. 📚✨🧠
         </h4>
         <br />
