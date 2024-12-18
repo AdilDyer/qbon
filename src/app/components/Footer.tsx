@@ -4,13 +4,13 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="textDiv">
-        <h3>Qbon © 2024</h3>
+        <h3>Qbon © 2025</h3>
         <h3>All Rights Reserved.</h3>
         <h3>
           Designed and Developed with <span>&hearts;</span> by{" "}
           <span>
             <Link href={"https://www.linkedin.com/in/adildyer/"}>
-              AdilDyer.
+              AdilDyer
             </Link>{" "}
           </span>
         </h3>

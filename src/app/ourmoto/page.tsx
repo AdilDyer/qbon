@@ -50,7 +50,7 @@ const OurMoto = () => {
         together, we can make a profound difference in the lives of our peers.
       </h5>
       <h5>With gratitude and excitement for the journey ahead,</h5>
-      <h2>The Qbon &hearts;</h2>
+      <h2>Qbon &hearts;</h2>
     </div>
   );
 };

@@ -258,7 +258,7 @@ const UploadPage = () => {
                         className="btn btn-lg"
                       >
                         {isImageUploaded
-                          ? "Material Upload Successfull"
+                          ? "File Accepted"
                           : "Select File"}
                       </Button>
                     );
